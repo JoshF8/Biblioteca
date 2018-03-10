@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package biblioteca;
+import Ventanas.Inicio;
 
 /**
  *
@@ -15,7 +16,8 @@ public class Biblioteca {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Inicio ventana = new Inicio();
+        ventana.setVisible(true);
     }
     
 }
