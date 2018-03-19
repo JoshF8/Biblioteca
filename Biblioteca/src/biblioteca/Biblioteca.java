@@ -5,12 +5,11 @@
  */
 package biblioteca;
 import Ventanas.Inicio;
-
 /**
  *
  * @author Josh
  */
-public class Biblioteca {
+public class Biblioteca implements ActionListener{
 
     /**
      * @param args the command line arguments

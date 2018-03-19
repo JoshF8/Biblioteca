@@ -24,29 +24,57 @@
 package Ventanas;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 /**
  *
  * @author Josh
  */
 
 
-public class Inicio extends JFrame{
+public class Inicio extends JFrame implements ActionListener{
+    
+    int Ancho = 240, Alto = 240;
+    
     public Inicio(){
         super("Proyecto 1 - IPC1");
-        setSize(400, 300);
-        setLocation(300,100);
+        setSize(Ancho, Alto);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+        getContentPane().setLayout(null);
         JPanel panelBotones = new JPanel();
-        panelBotones.setLayout(new GridLayout(2,1,5,50));
-        panelBotones.add(new JButton("Login"));
-        panelBotones.add(new JButton("About"));
-        JPanel panelImagen = new JPanel();
-        ImageIcon logo = new ImageIcon("C:\\Users\\Josh\\Documents\\GitHub\\Biblioteca\\Biblioteca\\src\\Ventanas\\logousac.png");
-        JLabel imagenContenedor = new JLabel(logo);
+        panelBotones.setLayout(new GridLayout(2,1,0,30));
+        JButton loginBoton = new JButton("Login"), aboutBoton = new JButton("About");
+        loginBoton.addActionListener();
+        loginBoton.setActionCommand("Login");
+        aboutBoton.addActionListener(this);
+        loginBoton.setActionCommand("About");
+        panelBotones.add(loginBoton);
+        panelBotones.add(aboutBoton);
+        panelBotones.setOpaque(false);
+        JPanel panelImagen = new JPanel(new FlowLayout());
+        ImageIcon logo = new ImageIcon("src\\Ventanas\\logousac.png");
+        JLabel imagenContenedor = new JLabel();
+        imagenContenedor.setSize(Ancho, Alto);
+        Icon icono = new ImageIcon(logo.getImage().getScaledInstance(imagenContenedor.getWidth(), imagenContenedor.getHeight()-20, Image.SCALE_SMOOTH));
+        imagenContenedor.setIcon(icono);
+        repaint();
+        panelImagen.setBounds(0, 0, Ancho, Alto);
         panelImagen.add(imagenContenedor);
-        getContentPane().setLayout(new FlowLayout());
-        getContentPane().add(panelImagen, BorderLayout.CENTER);
-        getContentPane().add(panelBotones, BorderLayout.CENTER);
+        panelBotones.setBounds(70, 30, 100, 150);
+        getContentPane().add(panelBotones);
+        getContentPane().add(panelImagen);
+        
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch(e.getActionCommand()){
+            case "Login":
+            case "About":
+                System.out.println("Prueba");
+                break;
+        }
     }
 }
