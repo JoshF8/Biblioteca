@@ -22,11 +22,80 @@
  * THE SOFTWARE.
  */
 package Ventanas;
-
+import biblioteca.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 /**
  *
  * @author Josh
  */
-public class Login {
+public class Login extends JFrame implements ActionListener{
+    
+    int Ancho = 340, Alto = 500;
+    JTextField usuarioTexto = new JTextField("");
+    JPasswordField passwordTexto = new JPasswordField("");
+    public Login(){
+        super("Login");
+        setSize(Ancho, Alto);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(null);
+        JPanel informacionPanel = new JPanel(new GridLayout(4,1,20,40));
+        informacionPanel.add(new JLabel("Usuario"));
+        informacionPanel.add(usuarioTexto);
+        informacionPanel.add(new JLabel("Password"));
+        informacionPanel.add(passwordTexto);
+        informacionPanel.setBounds(50,40,240,220);
+        JPanel botonesPanel = new JPanel(new GridLayout(1,2,20,40));
+        JButton aceptarBoton = new JButton("Aceptar"), cerrarBoton = new JButton("Cerrar");
+        aceptarBoton.addActionListener(this);
+        cerrarBoton.addActionListener(this);
+        botonesPanel.add(aceptarBoton);
+        botonesPanel.add(cerrarBoton);
+        botonesPanel.setBounds(50,340,240,50);
+        getContentPane().add(informacionPanel);
+        getContentPane().add(botonesPanel);
+    }
+    
+    private void comprobarUsuario(){
+        for (int i = 0; i < Biblioteca.usuariosActivos.length; i++) {
+            if(Biblioteca.usuariosActivos[i].getNick().contentEquals(usuarioTexto.getText())){
+                comprobarPassword(i);
+                return;
+            }
+        }
+        String mensaje = "El usuario no existe, ponerse en contacto con el administrador para solicitar registro.";
+        JOptionPane.showMessageDialog(this, mensaje, "Error", 2);
+    }
+    
+    private void comprobarPassword(int numeroUsuario){
+        if(Biblioteca.usuariosActivos[numeroUsuario].getPassword().equals(passwordTexto.getText())){
+            return;
+        }else{
+            String mensaje = "La contraseña que ha ingresado no coincide con el nombre de usuario.";
+            JOptionPane.showMessageDialog(this, mensaje, "Contraseña incorrecta", 2);
+        }
+    }
+    
+    @Override
+    public void dispose(){
+        Biblioteca.ventana.setVisible(true);
+        super.dispose();
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch(e.getActionCommand()){
+            case "Aceptar":
+                comprobarUsuario();
+                break;
+            case "Cerrar":
+                this.dispose();
+                break;
+        }
+    }
     
 }

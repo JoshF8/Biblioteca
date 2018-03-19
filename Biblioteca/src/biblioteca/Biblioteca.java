@@ -9,13 +9,19 @@ import Ventanas.Inicio;
  *
  * @author Josh
  */
-public class Biblioteca implements ActionListener{
+public class Biblioteca{
 
     /**
      * @param args the command line arguments
      */
+    
+    public static Usuario usuariosActivos[], auxUsuarios[];
+    public static Inicio ventana;
     public static void main(String[] args) {
-        Inicio ventana = new Inicio();
+        usuariosActivos = new Usuario[1];
+        Usuario admin = new Usuario("admin","administrador","admin","password");
+        usuariosActivos[0] = admin;
+        ventana = new Inicio();
         ventana.setVisible(true);
     }
     

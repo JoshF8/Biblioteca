@@ -23,10 +23,58 @@
  */
 package biblioteca;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  *
  * @author Josh
  */
-public class Usuario {
+public class Usuario implements ActionListener{
+    protected String ID, nombre, nick, password;
+    
+    public Usuario(String ID, String nombre, String nick, String password){
+        setID(ID);
+        setNombre(nombre);
+        setNick(nick);
+        setPassword(password);
+    }
+    
+    public void setID(String texto){
+        ID = texto;
+    }
+    
+    public void setNombre(String texto){
+        nombre = texto;
+    }
+    
+    public void setNick(String texto){
+        nick = texto;
+    }
+    
+    public void setPassword(String texto){
+        password = texto;
+    }
+    
+    public String getID(){
+        return ID;
+    }
+    
+    public String getNombre(){
+        return nombre;
+    }
+    
+    public String getNick(){
+        return nick;
+    }
+    
+    public String getPassword(){
+        return password;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println(e.getActionCommand());
+    }
     
 }

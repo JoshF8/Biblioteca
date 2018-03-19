@@ -46,10 +46,10 @@ public class Inicio extends JFrame implements ActionListener{
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new GridLayout(2,1,0,30));
         JButton loginBoton = new JButton("Login"), aboutBoton = new JButton("About");
-        loginBoton.addActionListener();
+        loginBoton.addActionListener(this);
         loginBoton.setActionCommand("Login");
         aboutBoton.addActionListener(this);
-        loginBoton.setActionCommand("About");
+        aboutBoton.setActionCommand("About");
         panelBotones.add(loginBoton);
         panelBotones.add(aboutBoton);
         panelBotones.setOpaque(false);
@@ -72,6 +72,10 @@ public class Inicio extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
             case "Login":
+                Login nuevoLogin = new Login();
+                nuevoLogin.setVisible(true);
+                this.setVisible(false);
+                break;
             case "About":
                 System.out.println("Prueba");
                 break;
