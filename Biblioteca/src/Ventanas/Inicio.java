@@ -34,7 +34,7 @@ import java.awt.event.ActionListener;
 
 public class Inicio extends JFrame implements ActionListener{
     
-    int Ancho = 240, Alto = 240;
+    private int Ancho = 240, Alto = 240;
     
     public Inicio(){
         super("Proyecto 1 - IPC1");

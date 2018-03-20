@@ -33,7 +33,8 @@ import java.awt.event.ActionListener;
  */
 public class Login extends JFrame implements ActionListener{
     
-    int Ancho = 340, Alto = 500;
+    private int Ancho = 340, Alto = 500;
+    boolean log = false;
     JTextField usuarioTexto = new JTextField("");
     JPasswordField passwordTexto = new JPasswordField("");
     public Login(){
@@ -73,7 +74,10 @@ public class Login extends JFrame implements ActionListener{
     
     private void comprobarPassword(int numeroUsuario){
         if(Biblioteca.usuariosActivos[numeroUsuario].getPassword().equals(passwordTexto.getText())){
-            return;
+            log = true;
+            Biblioteca.usuarioConectado = Biblioteca.usuariosActivos[numeroUsuario];
+            Biblioteca.usuarioConectado.abrirVentana();
+            dispose();
         }else{
             String mensaje = "La contraseña que ha ingresado no coincide con el nombre de usuario.";
             JOptionPane.showMessageDialog(this, mensaje, "Contraseña incorrecta", 2);
@@ -82,7 +86,9 @@ public class Login extends JFrame implements ActionListener{
     
     @Override
     public void dispose(){
-        Biblioteca.ventana.setVisible(true);
+        if(!log){
+            Biblioteca.ventana.setVisible(true);
+        }
         super.dispose();
     }
     

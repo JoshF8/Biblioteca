@@ -5,6 +5,7 @@
  */
 package biblioteca;
 import Ventanas.Inicio;
+import Ventanas.VentanaAdministrador;
 /**
  *
  * @author Josh
@@ -15,14 +16,17 @@ public class Biblioteca{
      * @param args the command line arguments
      */
     
-    public static Usuario usuariosActivos[], auxUsuarios[];
+    public static Usuario usuariosActivos[], auxUsuarios[], usuarioConectado;
     public static Inicio ventana;
+    
     public static void main(String[] args) {
         usuariosActivos = new Usuario[1];
-        Usuario admin = new Usuario("admin","administrador","admin","password");
+        Administrador admin = new Administrador("admin","administrador","admin","password");
         usuariosActivos[0] = admin;
         ventana = new Inicio();
-        ventana.setVisible(true);
+        //ventana.setVisible(true);
+        VentanaAdministrador prueba = new VentanaAdministrador();
+        prueba.setVisible(true);
     }
     
 }

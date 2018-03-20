@@ -23,6 +23,7 @@
  */
 package biblioteca;
 
+import Ventanas.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -70,6 +71,15 @@ public class Usuario implements ActionListener{
     
     public String getPassword(){
         return password;
+    }
+    
+    public void abrirVentana(){
+        if(!ID.equals("admin")){
+            
+        }else{
+            VentanaAdministrador ventana = new VentanaAdministrador();
+            ventana.setVisible(true);
+        }
     }
 
     @Override
