@@ -24,9 +24,9 @@ public class Biblioteca{
         Administrador admin = new Administrador("admin","administrador","admin","password");
         usuariosActivos[0] = admin;
         ventana = new Inicio();
-        //ventana.setVisible(true);
-        VentanaAdministrador prueba = new VentanaAdministrador();
-        prueba.setVisible(true);
+        ventana.setVisible(true);
+        /*VentanaAdministrador prueba = new VentanaAdministrador();
+        prueba.setVisible(true);*/
     }
     
 }

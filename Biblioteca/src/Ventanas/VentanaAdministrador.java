@@ -27,6 +27,8 @@ import java.awt.*;
 import biblioteca.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 
 /**
@@ -34,8 +36,8 @@ import java.awt.event.ActionListener;
  * @author Josh
  */
 public class VentanaAdministrador extends JFrame implements ActionListener{
-    private int Ancho = 600, Alto = 400;
-    
+    private int Ancho = 600, Alto = 280;
+    private Administrador admin = (Administrador)Biblioteca.usuarioConectado;
     public VentanaAdministrador(){
         super("Administrador");
         setSize(Ancho, Alto);
@@ -43,19 +45,61 @@ public class VentanaAdministrador extends JFrame implements ActionListener{
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(null);
+        JLabel titulo = new JLabel("Administrador");
+        titulo.setFont(new Font(titulo.getFont().getFontName(), titulo.getFont().getSize(),20));
+        titulo.setBounds(40,10,150,50);
         JButton logout = new JButton("Cerrar sesión");
         logout.addActionListener(this);
         logout.setBounds(400,10,150,50);
-        JPanel UsuariosPanel = new JPanel(new GridLayout(2,2,40,40));
-        JButton botonesOpciones = new JButton("Crear");
-        botonesOpciones.addActionListener(this);
+        JPanel UsuariosPanel = new JPanel(new GridLayout(2,2,30,30));
+        JPanel BibliografiasPanel = new JPanel(new GridLayout(2,2,30,30));
+        JButton Botones[] = new JButton[8];
+        Botones[0] = new JButton("Crear");
+        Botones[0].addActionListener(admin);
+        Botones[0].setActionCommand("CrearU");
+        Botones[1] = new JButton("Modificar");
+        Botones[1].addActionListener(admin);
+        Botones[1].setActionCommand("ModificarU");
+        Botones[2] = new JButton("Eliminar");
+        Botones[2].addActionListener(admin);
+        Botones[2].setActionCommand("EliminarU");
+        Botones[3] = new JButton("Mostrar");
+        Botones[3].addActionListener(admin);
+        Botones[3].setActionCommand("MostrarU");
+        Botones[4] = new JButton("Crear");
+        Botones[4].addActionListener(admin);
+        Botones[4].setActionCommand("CrearB");
+        Botones[5] = new JButton("Modificar");
+        Botones[5].addActionListener(admin);
+        Botones[5].setActionCommand("ModificarB");
+        Botones[6] = new JButton("Eliminar");
+        Botones[6].addActionListener(admin);
+        Botones[6].setActionCommand("EliminarB");
+        Botones[7] = new JButton("Mostrar");
+        Botones[7].addActionListener(admin);
+        Botones[7].setActionCommand("MostrarB");
+        for(int i = 0; i < 8; i++){
+            if(i<4){
+                UsuariosPanel.add(Botones[i]);
+            }else{
+                BibliografiasPanel.add(Botones[i]);
+            }
+        }
+        UsuariosPanel.setBorder(new TitledBorder(new EtchedBorder(Color.BLACK, null), "Usuarios"));
+        BibliografiasPanel.setBorder(new TitledBorder(new EtchedBorder(Color.BLACK, null), "Bibliografías"));
+        UsuariosPanel.setBounds(30, 80, 240, 150);
+        BibliografiasPanel.setBounds(330, 80, 240, 150);
+        getContentPane().add(titulo);
         getContentPane().add(logout);
+        getContentPane().add(UsuariosPanel);
+        getContentPane().add(BibliografiasPanel);
     }
     
     @Override
     public void dispose(){
         int opcion = JOptionPane.showConfirmDialog(this, "¿Desea cerrar sesión?", "Salir", JOptionPane.YES_NO_OPTION);
         if(opcion == JOptionPane.YES_OPTION){
+            Biblioteca.usuarioConectado.cerrarSesion();
             Biblioteca.ventana.setVisible(true);
             super.dispose();
         }

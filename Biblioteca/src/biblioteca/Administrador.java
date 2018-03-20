@@ -38,8 +38,8 @@ public class Administrador extends Usuario implements ActionListener{
     
      @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("Cerrar sesión")){
-            
+        if(e.getActionCommand().equals("CrearU")){
+            System.out.println("llego aca :v");
         }
     }
 }
