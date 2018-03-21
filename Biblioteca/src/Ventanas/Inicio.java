@@ -32,17 +32,14 @@ import java.awt.event.ActionListener;
  */
 
 
-public class Inicio extends JFrame implements ActionListener{
-    
-    private int Ancho = 240, Alto = 240;
+public class Inicio extends VentanaPadre implements ActionListener{
     
     public Inicio(){
         super("Proyecto 1 - IPC1");
+        Ancho = 240;
+        Alto = 240;
         setSize(Ancho, Alto);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        getContentPane().setLayout(null);
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new GridLayout(2,1,0,30));
         JButton loginBoton = new JButton("Login"), aboutBoton = new JButton("About");

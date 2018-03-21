@@ -6,6 +6,7 @@
 package biblioteca;
 import Ventanas.Inicio;
 import Ventanas.VentanaAdministrador;
+import Ventanas.VentanaPadre;
 /**
  *
  * @author Josh
@@ -17,7 +18,7 @@ public class Biblioteca{
      */
     
     public static Usuario usuariosActivos[], auxUsuarios[], usuarioConectado;
-    public static Inicio ventana;
+    public static VentanaPadre ventana;
     
     public static void main(String[] args) {
         usuariosActivos = new Usuario[1];

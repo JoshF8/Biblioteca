@@ -21,27 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package biblioteca;
+package Ventanas;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
  * @author Josh
  */
-public class Administrador extends Usuario implements ActionListener{
+public class VentanaPadre extends JFrame{
+    protected int Ancho, Alto;
     
-    public Administrador(String ID, String nombre, String nick, String password){
-        super(ID, nombre, nick, password);
-    }
-    
-    public void crearUsuario(){
-        
-    }
-    
-     @Override
-    public void actionPerformed(ActionEvent e) {
-        
+    public VentanaPadre(String titulo){
+        super(titulo);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(null);
     }
 }

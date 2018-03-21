@@ -35,16 +35,15 @@ import javax.swing.border.TitledBorder;
  *
  * @author Josh
  */
-public class VentanaAdministrador extends JFrame implements ActionListener{
-    private int Ancho = 600, Alto = 280;
+public class VentanaAdministrador extends VentanaPadre implements ActionListener{
+    
     private Administrador admin = (Administrador)Biblioteca.usuarioConectado;
     public VentanaAdministrador(){
         super("Administrador");
+        Ancho = 600;
+        Alto = 280;
         setSize(Ancho, Alto);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setResizable(false);
-        getContentPane().setLayout(null);
         JLabel titulo = new JLabel("Administrador");
         titulo.setFont(new Font(titulo.getFont().getFontName(), titulo.getFont().getSize(),20));
         titulo.setBounds(40,10,150,50);
@@ -55,28 +54,28 @@ public class VentanaAdministrador extends JFrame implements ActionListener{
         JPanel BibliografiasPanel = new JPanel(new GridLayout(2,2,30,30));
         JButton Botones[] = new JButton[8];
         Botones[0] = new JButton("Crear");
-        Botones[0].addActionListener(admin);
+        Botones[0].addActionListener(this);
         Botones[0].setActionCommand("CrearU");
         Botones[1] = new JButton("Modificar");
-        Botones[1].addActionListener(admin);
+        Botones[1].addActionListener(this);
         Botones[1].setActionCommand("ModificarU");
         Botones[2] = new JButton("Eliminar");
-        Botones[2].addActionListener(admin);
+        Botones[2].addActionListener(this);
         Botones[2].setActionCommand("EliminarU");
         Botones[3] = new JButton("Mostrar");
-        Botones[3].addActionListener(admin);
+        Botones[3].addActionListener(this);
         Botones[3].setActionCommand("MostrarU");
         Botones[4] = new JButton("Crear");
-        Botones[4].addActionListener(admin);
+        Botones[4].addActionListener(this);
         Botones[4].setActionCommand("CrearB");
         Botones[5] = new JButton("Modificar");
-        Botones[5].addActionListener(admin);
+        Botones[5].addActionListener(this);
         Botones[5].setActionCommand("ModificarB");
         Botones[6] = new JButton("Eliminar");
-        Botones[6].addActionListener(admin);
+        Botones[6].addActionListener(this);
         Botones[6].setActionCommand("EliminarB");
         Botones[7] = new JButton("Mostrar");
-        Botones[7].addActionListener(admin);
+        Botones[7].addActionListener(this);
         Botones[7].setActionCommand("MostrarB");
         for(int i = 0; i < 8; i++){
             if(i<4){
@@ -95,6 +94,18 @@ public class VentanaAdministrador extends JFrame implements ActionListener{
         getContentPane().add(BibliografiasPanel);
     }
     
+    public void crearVentana(int tipo){
+        VentanaPadre nuevaVentana = null;
+        switch(tipo){
+            case 0:
+                //Cambiar
+                nuevaVentana = new FormularioUsuarioNuevo();
+                break;
+        }
+        nuevaVentana.setVisible(true);
+        this.setVisible(false);
+    }
+    
     @Override
     public void dispose(){
         int opcion = JOptionPane.showConfirmDialog(this, "¿Desea cerrar sesión?", "Salir", JOptionPane.YES_NO_OPTION);
@@ -107,8 +118,14 @@ public class VentanaAdministrador extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("Cerrar sesión")){
-            dispose();
+        switch(e.getActionCommand()){
+            case "Cerrar sesión":
+                    dispose();
+                break;
+            case "CrearU":
+                crearVentana(0);
+                break;
+            
         }
     }
 }

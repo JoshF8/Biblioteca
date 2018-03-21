@@ -31,19 +31,17 @@ import java.awt.event.ActionListener;
  *
  * @author Josh
  */
-public class Login extends JFrame implements ActionListener{
+public class Login extends VentanaPadre implements ActionListener{
     
-    private int Ancho = 340, Alto = 500;
     boolean log = false;
     JTextField usuarioTexto = new JTextField("");
     JPasswordField passwordTexto = new JPasswordField("");
     public Login(){
         super("Login");
+        Ancho = 340;
+        Alto = 500;
         setSize(Ancho, Alto);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setResizable(false);
-        getContentPane().setLayout(null);
         JPanel informacionPanel = new JPanel(new GridLayout(4,1,20,40));
         informacionPanel.add(new JLabel("Usuario"));
         informacionPanel.add(usuarioTexto);
