@@ -73,18 +73,18 @@ public class Usuario implements ActionListener{
         return password;
     }
     
-    public void abrirVentana(){
+    public void abrirVentana(VentanaPadre anterior){
         logueado = true;
         if(!ID.equals("admin")){
             
         }else{
-            VentanaAdministrador ventana = new VentanaAdministrador();
+            VentanaAdministrador ventana = new VentanaAdministrador(anterior);
             ventana.setVisible(true);
         }
     }
     
     public void cerrarSesion(){
-        logueado = false;
+        Biblioteca.usuarioConectado = null;
     }
 
     @Override

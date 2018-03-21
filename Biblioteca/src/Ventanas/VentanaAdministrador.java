@@ -38,8 +38,8 @@ import javax.swing.border.TitledBorder;
 public class VentanaAdministrador extends VentanaPadre implements ActionListener{
     
     private Administrador admin = (Administrador)Biblioteca.usuarioConectado;
-    public VentanaAdministrador(){
-        super("Administrador");
+    public VentanaAdministrador(VentanaPadre anterior){
+        super("Administrador", anterior);
         Ancho = 600;
         Alto = 280;
         setSize(Ancho, Alto);
@@ -99,7 +99,7 @@ public class VentanaAdministrador extends VentanaPadre implements ActionListener
         switch(tipo){
             case 0:
                 //Cambiar
-                nuevaVentana = new FormularioUsuarioNuevo();
+                nuevaVentana = new FormularioUsuarioNuevo(this);
                 break;
         }
         nuevaVentana.setVisible(true);
@@ -111,8 +111,7 @@ public class VentanaAdministrador extends VentanaPadre implements ActionListener
         int opcion = JOptionPane.showConfirmDialog(this, "¿Desea cerrar sesión?", "Salir", JOptionPane.YES_NO_OPTION);
         if(opcion == JOptionPane.YES_OPTION){
             Biblioteca.usuarioConectado.cerrarSesion();
-            Biblioteca.ventana.setVisible(true);
-            super.dispose();
+            cerrar(true);
         }
     }
 
@@ -124,6 +123,9 @@ public class VentanaAdministrador extends VentanaPadre implements ActionListener
                 break;
             case "CrearU":
                 crearVentana(0);
+                break;
+            case "CrearB":
+                crearVentana(1);
                 break;
             
         }

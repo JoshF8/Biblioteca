@@ -36,8 +36,8 @@ public class Login extends VentanaPadre implements ActionListener{
     boolean log = false;
     JTextField usuarioTexto = new JTextField("");
     JPasswordField passwordTexto = new JPasswordField("");
-    public Login(){
-        super("Login");
+    public Login(VentanaPadre anterior){
+        super("Login", anterior);
         Ancho = 340;
         Alto = 500;
         setSize(Ancho, Alto);
@@ -74,7 +74,7 @@ public class Login extends VentanaPadre implements ActionListener{
         if(Biblioteca.usuariosActivos[numeroUsuario].getPassword().equals(passwordTexto.getText())){
             log = true;
             Biblioteca.usuarioConectado = Biblioteca.usuariosActivos[numeroUsuario];
-            Biblioteca.usuarioConectado.abrirVentana();
+            Biblioteca.usuarioConectado.abrirVentana(this);
             dispose();
         }else{
             String mensaje = "La contraseña que ha ingresado no coincide con el nombre de usuario.";
@@ -82,12 +82,21 @@ public class Login extends VentanaPadre implements ActionListener{
         }
     }
     
+    public void borrarValores(){
+        usuarioTexto.setText("");
+        passwordTexto.setText("");
+    }
+    
+    @Override
+    public void setVisible(boolean b){
+        borrarValores();
+        log = false;
+        super.setVisible(b);
+    }
+    
     @Override
     public void dispose(){
-        if(!log){
-            Biblioteca.ventana.setVisible(true);
-        }
-        super.dispose();
+        cerrar(!log);
     }
     
     @Override
@@ -97,7 +106,7 @@ public class Login extends VentanaPadre implements ActionListener{
                 comprobarUsuario();
                 break;
             case "Cerrar":
-                this.dispose();
+                dispose();
                 break;
         }
     }

@@ -32,11 +32,20 @@ import java.awt.*;
  */
 public class VentanaPadre extends JFrame{
     protected int Ancho, Alto;
+    VentanaPadre VentanaAnterior;
     
-    public VentanaPadre(String titulo){
+    public VentanaPadre(String titulo, VentanaPadre anterior){
         super(titulo);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(null);
+        VentanaAnterior = anterior;
+    }
+    
+    public void cerrar(boolean regreso){
+        if(VentanaAnterior != null && regreso){
+            VentanaAnterior.setVisible(true);
+        }
+        super.dispose();
     }
 }

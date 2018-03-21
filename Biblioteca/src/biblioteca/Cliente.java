@@ -23,35 +23,34 @@
  */
 package biblioteca;
 
-import Ventanas.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Josh
  */
-public class Administrador extends Usuario implements ActionListener{
+public class Cliente extends Usuario{
     
-    public Administrador(String ID, String nombre, String nick, String password){
+    private String apellido, rol;
+    
+    public Cliente(String ID, String nombre, String apellido, String nick, String rol, String password){
         super(ID, nombre, nick, password);
+        this.apellido = apellido;
+        this.rol = rol;
     }
     
-    public void crearUsuario(String ID, String nombre,String Apellido, String nick, String Rol, String password, FormularioUsuarioNuevo ventana){
-        Usuario nuevoCliente = new Cliente(ID, nombre, Apellido, nick, Rol, password);
-        Biblioteca.auxUsuarios = new Usuario[Biblioteca.usuariosActivos.length + 1];
-        for(int i = 0; i < Biblioteca.usuariosActivos.length; i++){
-            Biblioteca.auxUsuarios[i] = Biblioteca.usuariosActivos[i];
-        }
-        Biblioteca.auxUsuarios[Biblioteca.auxUsuarios.length - 1] = nuevoCliente;
-        Biblioteca.usuariosActivos = Biblioteca.auxUsuarios;
-        JOptionPane.showMessageDialog(null, "Usuario guardado con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
-        ventana.borrarTextos();
+    public void setApellido(String texto){
+        apellido = texto;
     }
     
-     @Override
-    public void actionPerformed(ActionEvent e) {
-        
+    public void setRol(String texto){
+        rol = texto;
     }
+    
+    public String getApellido(){
+        return apellido;
+    }
+    
+    public String getRol(){
+        return rol;
+    }
+    
 }

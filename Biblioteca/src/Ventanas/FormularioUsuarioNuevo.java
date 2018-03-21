@@ -23,7 +23,10 @@
  */
 package Ventanas;
 
+import biblioteca.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -32,15 +35,17 @@ import javax.swing.*;
  */
 
 
-public class FormularioUsuarioNuevo extends VentanaPadre{
+public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListener{
     
     JTextField cuadrosTexto[] = new JTextField[4];
     JComboBox cuadroSeleccion = new JComboBox();
     JPasswordField cuadrosPassword[] = new JPasswordField[2];
     String textoLabels[] = {"ID", "Nombre", "Apellido", "Nick", "Rol", "Password", "Repetir password"};
+    Administrador admin = (Administrador) Biblioteca.usuarioConectado;
     
-    public FormularioUsuarioNuevo(){
-        super("Nuevo Usuario");
+    
+    public FormularioUsuarioNuevo(VentanaPadre anterior){
+        super("Nuevo Usuario", anterior);
         Ancho = 420;
         Alto = 630;
         setSize(Ancho, Alto);
@@ -63,14 +68,106 @@ public class FormularioUsuarioNuevo extends VentanaPadre{
         informacionPanel.setBounds(60,10,300,480);
         JPanel botonesPanel = new JPanel(new GridLayout(1,2,20,40));
         JButton aceptarBoton = new JButton("Aceptar"), borrarBoton = new JButton("Borrar"), cerrarBoton = new JButton("Cerrar");
-        //aceptarBoton.addActionListener(this);
-        //cerrarBoton.addActionListener(this);
+        aceptarBoton.addActionListener(this);
+        borrarBoton.addActionListener(this);
+        cerrarBoton.addActionListener(this);
         botonesPanel.add(aceptarBoton);
         botonesPanel.add(borrarBoton);
         botonesPanel.add(cerrarBoton);
         botonesPanel.setBounds(60,520,300,50);
         getContentPane().add(informacionPanel);
         getContentPane().add(botonesPanel);
+    }
+    
+    public void borrarTextos(){
+        for(int i = 0; i < (cuadrosTexto.length + cuadrosPassword.length); i++){
+            if(i < cuadrosTexto.length){
+                cuadrosTexto[i].setText("");
+            }else{
+                cuadrosPassword[i - cuadrosTexto.length].setText("");
+            }
+            cuadroSeleccion.setSelectedIndex(0);
+        }
+    }
+    
+    private boolean comprobarLlenadoTextos(int tipo){
+        boolean r0 =  false, r1 = true, valor;
+        for(int i = 0; i < (cuadrosTexto.length + cuadrosPassword.length); i++){
+            if(i < cuadrosTexto.length){
+                valor = !cuadrosTexto[i].getText().equals("");
+            }else{
+                valor = !cuadrosPassword[i - cuadrosTexto.length].getText().equals(""); 
+            }
+            if(valor){
+                    r0 = true;
+            }else{
+                    r1 = false;
+            }
+        }
+        /*if(r0){
+            "Existe campo lleno"
+        }
+        if(!r1){
+           "Existe campo vacio"
+        }*/
+        return (tipo == 0) ? r0 : r1;
+    }
+    
+    private boolean comprobarExistencia(){
+        for(Usuario usuarios : Biblioteca.usuariosActivos){
+            if(usuarios.getID().equals(cuadrosTexto[0].getText())){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean comprobarTextos(){
+        boolean b = true;
+        if(!comprobarLlenadoTextos(1)){
+            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos antes de guardar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else{
+            if(!comprobarExistencia()){
+                JOptionPane.showMessageDialog(this, "Ya existe un usuario con ese ID.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }else{
+                if(!cuadrosPassword[0].getText().equals(cuadrosPassword[1].getText())){
+                    JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    @Override
+    public void dispose(){
+        if(comprobarLlenadoTextos(0)){
+            if(JOptionPane.showConfirmDialog(this, "Al salir se perderán los datos. ¿Está seguro de salir?", "Salir",JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION){
+                cerrar(true);
+            }
+        }else{
+            cerrar(true);
+        }
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch(e.getActionCommand()){
+            case "Cerrar":
+                dispose();
+                break;
+            case "Borrar":
+                borrarTextos();
+                break;
+            case "Aceptar":
+                if(comprobarTextos()){
+                    admin.crearUsuario(cuadrosTexto[0].getText(), cuadrosTexto[1].getText(), cuadrosTexto[2].getText(), cuadrosTexto[3].getText(), cuadroSeleccion.getSelectedItem().toString(), cuadrosPassword[0].getText(), this);
+                    borrarTextos();
+                }
+                break;
+        }
     }
     
 }

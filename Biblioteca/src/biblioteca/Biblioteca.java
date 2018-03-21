@@ -5,8 +5,7 @@
  */
 package biblioteca;
 import Ventanas.Inicio;
-import Ventanas.VentanaAdministrador;
-import Ventanas.VentanaPadre;
+import Ventanas.*;
 /**
  *
  * @author Josh
@@ -24,7 +23,7 @@ public class Biblioteca{
         usuariosActivos = new Usuario[1];
         Administrador admin = new Administrador("admin","administrador","admin","password");
         usuariosActivos[0] = admin;
-        ventana = new Inicio();
+        ventana = new Inicio(null);
         ventana.setVisible(true);
         /*VentanaAdministrador prueba = new VentanaAdministrador();
         prueba.setVisible(true);*/
