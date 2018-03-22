@@ -31,11 +31,12 @@ public class Bibliografia {
     private int Tipo, Edicion, Ejemplares, Copias, Disponibles;
     private String Autor, Titulo, Descripcion, PalabrasClave[], Temas[], FrecuenciaActual, Area;
     
-    public Bibliografia(int tipo, String autor, String titulo, String descripcion, int edicion, String temas[], String frecuenciaActual, int ejemplares, String area, int copias, int disponibles){
+    public Bibliografia(int tipo, String autor, String titulo, String descripcion, String palabrasClave[],int edicion, String temas[], String frecuenciaActual, int ejemplares, String area, int copias, int disponibles){
         setTipo(tipo);
         setAutor(autor);
         setTitulo(titulo);
         setDescripcion(descripcion);
+        setPalabrasClave(palabrasClave);
         setEdicion(edicion);
         setTemas(temas);
         if(getTipo() == 1){

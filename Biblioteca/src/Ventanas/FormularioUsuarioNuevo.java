@@ -123,7 +123,6 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
     }
     
     private boolean comprobarTextos(){
-        boolean b = true;
         if(!comprobarLlenadoTextos(1)){
             JOptionPane.showMessageDialog(this, "Debe llenar todos los campos antes de guardar.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;

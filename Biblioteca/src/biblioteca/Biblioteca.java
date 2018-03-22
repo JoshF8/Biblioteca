@@ -17,7 +17,7 @@ public class Biblioteca{
      */
     
     public static Usuario usuariosActivos[], auxUsuarios[], usuarioConectado;
-    public static Bibliografia bibliografiasActuales[], auxBibliografia[];
+    public static Bibliografia bibliografiasActuales[] = new Bibliografia[0], auxBibliografia[];
     public static VentanaPadre ventana;
     
     public static void main(String[] args) {

@@ -50,6 +50,17 @@ public class Administrador extends Usuario implements ActionListener{
         ventana.borrarTextos();
     }
     
+    public void crearBibliografia(int tipo, String autor, String titulo, String descripcion, String palabrasClave[],int edicion, String temas[], String frecuenciaActual, int ejemplares, String area, int copias, int disponibles){
+        Bibliografia nuevaBibliografia = new Bibliografia(tipo, autor, titulo, descripcion, palabrasClave,edicion, temas, frecuenciaActual, ejemplares, area, copias, disponibles);
+        Biblioteca.auxBibliografia = new Bibliografia[Biblioteca.bibliografiasActuales.length + 1];
+        for(int i = 0; i < Biblioteca.bibliografiasActuales.length; i++ ){
+            Biblioteca.auxBibliografia[i] = Biblioteca.bibliografiasActuales[i];
+        }
+        Biblioteca.auxBibliografia[Biblioteca.auxBibliografia.length - 1] = nuevaBibliografia;
+        Biblioteca.bibliografiasActuales = Biblioteca.auxBibliografia;
+        JOptionPane.showMessageDialog(null, "Biliografía creada con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
      @Override
     public void actionPerformed(ActionEvent e) {
         
