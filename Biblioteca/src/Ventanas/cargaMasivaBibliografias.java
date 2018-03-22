@@ -48,7 +48,7 @@ public class cargaMasivaBibliografias extends VentanaPadre implements ActionList
         areaTexto.setBounds(20,20,800,300);
         ejemplo.changeAlpha(0.75f);
         ejemplo.setVerticalAlignment(TextPrompt.TOP);
-        JPanel botonesPanel = new JPanel(new GridLayout(1,4,20,40));
+        JPanel botonesPanel = new JPanel(new GridLayout(1,3,20,40));
         JButton aceptarBoton = new JButton("Aceptar"), borrarBoton = new JButton("Borrar"), cerrarBoton = new JButton("Cerrar");
         aceptarBoton.addActionListener(this);
         borrarBoton.addActionListener(this);

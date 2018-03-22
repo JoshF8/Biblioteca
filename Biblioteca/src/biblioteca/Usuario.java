@@ -76,7 +76,8 @@ public class Usuario implements ActionListener{
     public void abrirVentana(VentanaPadre anterior){
         logueado = true;
         if(!ID.equals("admin")){
-            
+            VentanaCliente ventana = new VentanaCliente(anterior, (Cliente)this);
+            ventana.setVisible(true);
         }else{
             VentanaAdministrador ventana = new VentanaAdministrador(anterior);
             ventana.setVisible(true);

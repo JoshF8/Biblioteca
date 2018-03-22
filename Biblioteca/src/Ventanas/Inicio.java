@@ -63,7 +63,6 @@ public class Inicio extends VentanaPadre implements ActionListener{
         panelBotones.setBounds(70, 30, 100, 150);
         getContentPane().add(panelBotones);
         getContentPane().add(panelImagen);
-        
     }
 
     @Override
