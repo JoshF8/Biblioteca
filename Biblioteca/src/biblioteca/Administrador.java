@@ -58,7 +58,7 @@ public class Administrador extends Usuario implements ActionListener{
         }
         Biblioteca.auxBibliografia[Biblioteca.auxBibliografia.length - 1] = nuevaBibliografia;
         Biblioteca.bibliografiasActuales = Biblioteca.auxBibliografia;
-        JOptionPane.showMessageDialog(null, "Biliografía creada con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+        System.out.println(Biblioteca.bibliografiasActuales[Biblioteca.bibliografiasActuales.length - 1].getAutor());
     }
     
      @Override

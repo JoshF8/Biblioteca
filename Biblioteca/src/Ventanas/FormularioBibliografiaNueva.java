@@ -64,15 +64,17 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
         combobox.add(cuadroSeleccion);
         combobox.setBounds(20,20,390,60);
         formulario.setBounds(20,80,800,400);
-        JPanel botonesPanel = new JPanel(new GridLayout(1,2,20,40));
-        JButton aceptarBoton = new JButton("Aceptar"), borrarBoton = new JButton("Borrar"), cerrarBoton = new JButton("Cerrar");
+        JPanel botonesPanel = new JPanel(new GridLayout(1,4,20,40));
+        JButton aceptarBoton = new JButton("Aceptar"), borrarBoton = new JButton("Borrar"), cerrarBoton = new JButton("Cerrar"), cargaBoton = new JButton("Carga masiva");
         aceptarBoton.addActionListener(this);
         borrarBoton.addActionListener(this);
         cerrarBoton.addActionListener(this);
+        cargaBoton.addActionListener(this);
         botonesPanel.add(aceptarBoton);
         botonesPanel.add(borrarBoton);
+        botonesPanel.add(cargaBoton);
         botonesPanel.add(cerrarBoton);
-        botonesPanel.setBounds(60,520,300,50);
+        botonesPanel.setBounds(120,520,600,50);
         getContentPane().add(combobox);
         
         getContentPane().add(botonesPanel);
@@ -171,6 +173,7 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
         limpiarVector(palabrasClave);
         int num = (cuadrosTexto[9].getText().equals(""))? 0 : Integer.valueOf(cuadrosTexto[9].getText());
         admin.crearBibliografia(cuadroSeleccion.getSelectedIndex(), cuadrosTexto[0].getText(), cuadrosTexto[1].getText(), cuadrosTexto[2].getText(), palabrasClave, Integer.valueOf(cuadrosTexto[4].getText()), temas, cuadrosTexto[8].getText(), num, cuadrosTexto[10].getText(), Integer.valueOf(cuadrosTexto[6].getText()), Integer.valueOf(cuadrosTexto[7].getText()));
+        JOptionPane.showMessageDialog(null, "Biliografía creada con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
     }
     
     public void limpiarVector(String vector[]){
@@ -207,6 +210,11 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
                     enviarGuardado();
                     borrarTextos();
                 }
+                break;
+            case "Carga masiva":
+                cargaMasivaBibliografias ventana = new cargaMasivaBibliografias(this);
+                ventana.setVisible(true);
+                this.setVisible(false);
                 break;
         }
     }
