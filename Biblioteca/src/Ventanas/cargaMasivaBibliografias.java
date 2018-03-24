@@ -35,7 +35,7 @@ public class cargaMasivaBibliografias extends VentanaPadre implements ActionList
     
     JTextArea areaTexto = new JTextArea("", 10 , 10);
     TextPrompt ejemplo = new TextPrompt("Tipo; Autor; Título; Descripción; Palabras Clave; Edición; Temas; Frecuencia Actual; Ejemplares; Área;\n" +
-"Copias; Disponibles;", areaTexto);
+"Copias; Disponibles", areaTexto);
     Administrador admin = (Administrador) Biblioteca.usuarioConectado;
     
     
@@ -57,12 +57,15 @@ public class cargaMasivaBibliografias extends VentanaPadre implements ActionList
         botonesPanel.add(borrarBoton);
         botonesPanel.add(cerrarBoton);
         botonesPanel.setBounds(120,400,600,50);
+        areaTexto.setLineWrap(true);
         getContentPane().add(areaTexto);
         getContentPane().add(botonesPanel);
     }
     
     public void comprobarGuardado(){
-        String datos[] = areaTexto.getText().split(";"), mensaje = "";
+        String texto = areaTexto.getText().replace("\n", ";");
+        
+        String datos[] = texto.split(";"), mensaje = "";
         for(int i = 0; i < datos.length; i++){
             datos[i] = datos[i].trim();
         }

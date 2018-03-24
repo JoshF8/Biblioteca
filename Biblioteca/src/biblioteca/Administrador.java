@@ -58,7 +58,6 @@ public class Administrador extends Usuario implements ActionListener{
         }
         Biblioteca.auxBibliografia[Biblioteca.auxBibliografia.length - 1] = nuevaBibliografia;
         Biblioteca.bibliografiasActuales = Biblioteca.auxBibliografia;
-        System.out.println(Biblioteca.bibliografiasActuales[Biblioteca.bibliografiasActuales.length - 1].getAutor());
     }
     
      @Override

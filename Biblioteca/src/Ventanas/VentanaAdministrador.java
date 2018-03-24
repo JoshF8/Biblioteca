@@ -120,6 +120,7 @@ public class VentanaAdministrador extends VentanaPadre implements ActionListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        mostrarTabla ventana;
         switch(e.getActionCommand()){
             case "Cerrar sesión":
                     dispose();
@@ -130,7 +131,36 @@ public class VentanaAdministrador extends VentanaPadre implements ActionListener
             case "CrearB":
                 crearVentana(1);
                 break;
-            
+            case "MostrarU":
+                ventana = new mostrarTabla(this, "", "Usuarios");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
+            case "ModificarU":
+                ventana = new mostrarTabla(this, "Modificar", "Usuarios");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
+            case "EliminarU":
+                ventana = new mostrarTabla(this, "Eliminar", "Usuarios");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
+            case "MostrarB":
+                ventana = new mostrarTabla(this, "", "Bibliografías");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
+            case "ModificarB":
+                ventana = new mostrarTabla(this, "Modificar", "Bibliografías");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
+            case "EliminarB":
+                ventana = new mostrarTabla(this, "Eliminar", "Bibliografías");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
         }
     }
 }

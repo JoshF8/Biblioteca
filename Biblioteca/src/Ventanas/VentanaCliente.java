@@ -68,7 +68,16 @@ public class VentanaCliente extends VentanaPadre implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+        switch(e.getActionCommand()){
+            case "Biliografías":
+                mostrarTabla ventana = new mostrarTabla(this, "Agregar", "Bibliografías");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
+            case "Cerrar sesión":
+                dispose();
+                break;
+        }
     }
     
 }

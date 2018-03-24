@@ -21,10 +21,12 @@ public class Biblioteca{
     public static VentanaPadre ventana;
     
     public static void main(String[] args) {
-        usuariosActivos = new Usuario[2];
+        usuariosActivos = new Usuario[4];
         Administrador admin = new Administrador("admin","administrador","admin","password");
         usuariosActivos[0] = admin;
-        usuariosActivos[1] = new Cliente("abc", "Juan", "ra", "abcd", "Estudiante", "123");
+        usuariosActivos[1] = new Cliente("2569567840101", "Juan", "ra", "abcd", "Estudiante", "123");
+        usuariosActivos[2] = new Cliente("2562427840101", "Jose", "te", "efg", "Estudiante", "456");
+        usuariosActivos[3] = new Cliente("2562342490101", "Pedro", "qa", "hij", "Catedrático", "789");
         ventana = new Inicio(null);
         ventana.setVisible(true);
         /*VentanaAdministrador prueba = new VentanaAdministrador();

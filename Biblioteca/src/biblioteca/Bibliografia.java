@@ -28,9 +28,9 @@ package biblioteca;
  * @author Josh
  */
 public class Bibliografia {
-    private int Tipo, Edicion, Ejemplares, Copias, Disponibles;
+    private int ID, Tipo, Edicion, Ejemplares, Copias, Disponibles;
     private String Autor, Titulo, Descripcion, PalabrasClave[], Temas[], FrecuenciaActual, Area;
-    
+    private static int contadorID = 0;
     public Bibliografia(int tipo, String autor, String titulo, String descripcion, String palabrasClave[],int edicion, String temas[], String frecuenciaActual, int ejemplares, String area, int copias, int disponibles){
         setTipo(tipo);
         setAutor(autor);
@@ -48,6 +48,7 @@ public class Bibliografia {
         }
         setCopias(copias);
         setDisponibles(disponibles);
+        ID = contadorID++;
     }
     
     public void setTipo(int valor){
@@ -98,6 +99,10 @@ public class Bibliografia {
         Disponibles = valor;
     }
     
+    public int getID(){
+        return ID;
+    }
+    
     public int getTipo(){
         return Tipo;
     }
@@ -114,16 +119,26 @@ public class Bibliografia {
         return Descripcion;
     }
     
-    public String[] getPalabrasClave(){
-        return PalabrasClave;
+    public String getPalabrasClave(){
+        String resultado = "";
+        for(int i = 0; i < PalabrasClave.length; i++){
+            resultado += PalabrasClave[i] + ", ";
+        }
+        resultado = resultado.substring(0,resultado.length() - 2);
+        return resultado;
     }
     
     public int getEdicion(){
         return Edicion;
     }
     
-    public String[] getTemas(){
-        return Temas;
+    public String getTemas(){
+        String resultado = "";
+        for(int i = 0; i < Temas.length; i++){
+            resultado += Temas[i] + ", ";
+        }
+        resultado = resultado.substring(0,resultado.length() - 2);
+        return resultado;
     }
     
     public String getFrecuenciaActual(){

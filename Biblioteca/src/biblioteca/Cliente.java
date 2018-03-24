@@ -30,6 +30,7 @@ package biblioteca;
 public class Cliente extends Usuario{
     
     private String apellido, rol;
+    private Bibliografia favoritos[] = new Bibliografia[0];
     
     public Cliente(String ID, String nombre, String apellido, String nick, String rol, String password){
         super(ID, nombre, nick, password);
