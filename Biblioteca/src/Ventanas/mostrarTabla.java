@@ -42,12 +42,13 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
     
     JTable tabla;
     JComboBox<String> ordenar = new JComboBox<String>();
-    private int columnaOrdenar = 0;
-    
+    private int columnaOrdenar = 0, itemSeleccionado = 0;
+    JTextField textos[];
+    TextPrompt placeHolders[];
     public mostrarTabla(VentanaPadre anterior, String tipoTabla, String tipoBusqueda) {
         super(tipoBusqueda, anterior);
         Ancho = 1000;
-        Alto = 480;
+        Alto = 500;
         setSize(Ancho, Alto);
         setLocationRelativeTo(null);
         if(tipoBusqueda.contains("Bib")){
@@ -74,7 +75,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         JScrollPane tablaPanel = new JScrollPane();
         tablaPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         tablaPanel.setViewportView(tabla);
-        tablaPanel.setBounds(20,120, 960,300);
+        tablaPanel.setBounds(20,100, 960,360);
         getContentPane().add(tablaPanel);
     }
     
@@ -223,6 +224,15 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         
         tabla = new JTable(modeloTabla);
         columnaOrdenar = 0;
+        ordenar.addItem("ID(Ascendente)");
+        ordenar.addItem("ID(Descendente)");
+        ordenar.setActionCommand("CambioOrdenMostrarUsuario");
+        ordenar.addActionListener(this);
+        ordenar.setBounds(100, 30, 300, 30);
+        JLabel texto = new JLabel("Ordenar por:");
+        texto.setBounds(20, 30, 200,30);
+        getContentPane().add(ordenar);
+        getContentPane().add(texto);
     }
     
     public void llenarTabla(Usuario usuarios[] , String tipoTabla){
@@ -282,6 +292,20 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
             }
         });
         columnaOrdenar = 0;
+        textos = new JTextField[1];
+        textos[0] = new JTextField("");
+        textos[0].setBounds(20, 30, 300, 30);
+        placeHolders = new TextPrompt[1];
+        placeHolders[0] = new TextPrompt("ID (DPI)", textos[0]);
+        placeHolders[0].changeAlpha(0.75f);
+        getContentPane().add(textos[0]);
+    }
+    
+    private void ordenarMostrarUsuario(){
+        if(ordenar.getSelectedIndex() != itemSeleccionado){
+            tabla.getRowSorter().toggleSortOrder(columnaOrdenar);
+            itemSeleccionado = ordenar.getSelectedIndex();
+        }
     }
     
     @Override
@@ -291,7 +315,11 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.err.println(e.getActionCommand());
+        switch(e.getActionCommand()){
+            case "CambioOrdenMostrarUsuario":
+                ordenarMostrarUsuario();
+                break;
+        }
     }
     
 }

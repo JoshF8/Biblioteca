@@ -67,7 +67,7 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
         }
         informacionPanel.setBounds(60,10,300,480);
         JPanel botonesPanel = new JPanel(new GridLayout(1,2,20,40));
-        JButton aceptarBoton = new JButton("Aceptar"), borrarBoton = new JButton("Borrar"), cerrarBoton = new JButton("Cerrar");
+        JButton aceptarBoton = new JButton("Guardar"), borrarBoton = new JButton("Borrar"), cerrarBoton = new JButton("Cerrar");
         aceptarBoton.addActionListener(this);
         borrarBoton.addActionListener(this);
         cerrarBoton.addActionListener(this);
@@ -160,7 +160,7 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
             case "Borrar":
                 borrarTextos();
                 break;
-            case "Aceptar":
+            case "Guardar":
                 if(comprobarTextos()){
                     admin.crearUsuario(cuadrosTexto[0].getText(), cuadrosTexto[1].getText(), cuadrosTexto[2].getText(), cuadrosTexto[3].getText(), cuadroSeleccion.getSelectedItem().toString(), cuadrosPassword[0].getText(), this);
                     borrarTextos();
