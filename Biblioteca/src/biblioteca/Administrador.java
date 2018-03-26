@@ -50,6 +50,41 @@ public class Administrador extends Usuario implements ActionListener{
         ventana.borrarTextos();
     }
     
+    public void eliminarUsuario(String ID){
+        int contador = 0, index = buscarObjeto(Biblioteca.usuariosActivos, ID);
+        Biblioteca.auxUsuarios = new Usuario[Biblioteca.usuariosActivos.length - 1];
+        for(Usuario usuario : Biblioteca.usuariosActivos){
+            if(contador != index){
+                Biblioteca.auxUsuarios[contador] = usuario;
+                contador++;
+            }else{
+                index = -1;
+            }
+        }
+        Biblioteca.usuariosActivos = Biblioteca.auxUsuarios;
+    }
+    
+    public void modificarUsuario(String ID, VentanaPadre anterior){
+        int index = buscarObjeto(Biblioteca.usuariosActivos, ID);
+        FormularioUsuarioNuevo ventana = new FormularioUsuarioNuevo(anterior, 1);
+        ventana.llenarTextos(index);
+        ventana.setVisible(true);
+    }
+    
+    public void guardarCambiosUsuario(int index, String ID, String nombre,String Apellido, String nick, String Rol, String password, FormularioUsuarioNuevo ventana){
+        Cliente usuario = (Cliente)Biblioteca.usuariosActivos[index];
+        usuario.setID(ID);
+        usuario.setNombre(nombre);
+        usuario.setApellido(Apellido);
+        usuario.setNick(nick);
+        usuario.setRol(Rol);
+        usuario.setPassword(password);
+        JOptionPane.showMessageDialog(null, "Cambios guardados con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+        ventana.borrarTextos();
+    }
+    
+    
+    
     public void crearBibliografia(int tipo, String autor, String titulo, String descripcion, String palabrasClave[],int edicion, String temas[], String frecuenciaActual, int ejemplares, String area, int copias, int disponibles){
         Bibliografia nuevaBibliografia = new Bibliografia(tipo, autor, titulo, descripcion, palabrasClave,edicion, temas, frecuenciaActual, ejemplares, area, copias, disponibles);
         Biblioteca.auxBibliografia = new Bibliografia[Biblioteca.bibliografiasActuales.length + 1];
@@ -58,6 +93,25 @@ public class Administrador extends Usuario implements ActionListener{
         }
         Biblioteca.auxBibliografia[Biblioteca.auxBibliografia.length - 1] = nuevaBibliografia;
         Biblioteca.bibliografiasActuales = Biblioteca.auxBibliografia;
+    }
+    
+    private int buscarObjeto(Object  coleccion[], String ID){
+        try {
+            Bibliografia bibliografias[] = (Bibliografia[]) coleccion;
+            for(int i = 0; i < bibliografias.length; i++){
+                if(ID.equals(String.valueOf(bibliografias[i].getID()))){
+                    return i;
+                }
+            }
+        } catch (Exception e) {
+            Usuario usuarios[] = (Usuario[]) coleccion;
+            for(int i = 1; i < usuarios.length; i++){
+                if(ID.equals(usuarios[i].getID())){
+                    return i;
+                }
+            }
+        }
+        return -1;
     }
     
     @Override

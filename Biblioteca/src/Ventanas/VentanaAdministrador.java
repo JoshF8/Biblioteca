@@ -99,7 +99,7 @@ public class VentanaAdministrador extends VentanaPadre implements ActionListener
         switch(tipo){
             case 0:
                 //Cambiar
-                nuevaVentana = new FormularioUsuarioNuevo(this);
+                nuevaVentana = new FormularioUsuarioNuevo(this, 0);
                 break;
             case 1:
                 nuevaVentana = new FormularioBibliografiaNueva(this);

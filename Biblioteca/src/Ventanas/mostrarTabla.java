@@ -47,6 +47,8 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
     JTextField textos[];
     TextPrompt placeHolders[];
     JButton botones[];
+    Administrador admin = (Administrador)Biblioteca.usuariosActivos[0];
+    
     public mostrarTabla(VentanaPadre anterior, String tipoTabla, String tipoBusqueda) {
         super(tipoBusqueda, anterior);
         Ancho = 1000;
@@ -151,6 +153,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 int columna = tabla.columnAtPoint(e.getPoint());
                 if(modeloTabla.getColumnClass(columna).equals(JButton.class)){
                     System.out.println(tabla.getValueAt(tabla.getSelectedRow(), 0));
+                    controlBotones(tipoTabla + "B", (Long)tabla.getValueAt(fila, columna));
                 }
             }
         });
@@ -335,7 +338,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 int fila = tabla.rowAtPoint(e.getPoint());
                 int columna = tabla.columnAtPoint(e.getPoint());
                 if(modeloTabla.getColumnClass(columna).equals(JButton.class)){
-                    System.out.println(tabla.getValueAt(tabla.getSelectedRow(), 0));
+                    controlBotones(tipoTabla + "U", (Long)tabla.getValueAt(fila, 0));
                 }
             }
         });
@@ -386,6 +389,26 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
             itemSeleccionado = ordenar.getSelectedIndex();
         }
     }
+    
+    private void controlBotones(String tipoTabla, Long ID){
+        switch(tipoTabla){
+            case "EliminarU":
+                if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar al usuario?", "Eliminar usuario", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                    admin.eliminarUsuario(String.valueOf(ID));
+                    mostrarTabla ventana = new mostrarTabla(VentanaAnterior, "Eliminar", "Usuarios");
+                    ventana.setVisible(true);
+                    super.dispose();
+                }
+                break;
+            case "ModificarU":
+                if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea modificar los datos del usuario?", "Eliminar usuario", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                    admin.modificarUsuario(String.valueOf(ID), VentanaAnterior);
+                    super.dispose();
+                }
+                break;
+        }
+    }
+    
     @Override
     public void dispose(){
         cerrar(true);

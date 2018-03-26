@@ -42,9 +42,9 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
     JPasswordField cuadrosPassword[] = new JPasswordField[2];
     String textoLabels[] = {"ID", "Nombre", "Apellido", "Nick", "Rol", "Password", "Repetir password"};
     Administrador admin = (Administrador) Biblioteca.usuarioConectado;
+    int index = -1, tipoForm;
     
-    
-    public FormularioUsuarioNuevo(VentanaPadre anterior){
+    public FormularioUsuarioNuevo(VentanaPadre anterior, int tipo){
         super("Nuevo Usuario", anterior);
         Ancho = 420;
         Alto = 630;
@@ -74,6 +74,10 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
         botonesPanel.add(aceptarBoton);
         botonesPanel.add(borrarBoton);
         botonesPanel.add(cerrarBoton);
+        if(tipo == 1){
+            aceptarBoton.setActionCommand("GuardarCambios");
+        }
+        tipoForm = tipo;
         botonesPanel.setBounds(60,520,300,50);
         getContentPane().add(informacionPanel);
         getContentPane().add(botonesPanel);
@@ -88,6 +92,18 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
             }
             cuadroSeleccion.setSelectedIndex(0);
         }
+    }
+    
+    public void llenarTextos(int index){
+        Cliente usuario = (Cliente)Biblioteca.usuariosActivos[index];
+        cuadrosTexto[0].setText(usuario.getID());
+        cuadrosTexto[1].setText(usuario.getNombre());
+        cuadrosTexto[2].setText(usuario.getApellido());
+        cuadrosTexto[3].setText(usuario.getNick());
+        cuadroSeleccion.setSelectedIndex((usuario.getRol().equals("Estudiante"))? 0:1);
+        cuadrosPassword[0].setText(usuario.getPassword());
+        cuadrosPassword[1].setText(usuario.getPassword());
+        this.index = index;
     }
     
     private boolean comprobarLlenadoTextos(int tipo){
@@ -115,7 +131,7 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
     
     private boolean comprobarExistencia(){
         for(Usuario usuarios : Biblioteca.usuariosActivos){
-            if(usuarios.getID().equals(cuadrosTexto[0].getText())){
+            if(usuarios.getID().equals(cuadrosTexto[0].getText()) && tipoForm == 0){
                 return false;
             }
         }
@@ -163,6 +179,12 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
             case "Guardar":
                 if(comprobarTextos()){
                     admin.crearUsuario(cuadrosTexto[0].getText(), cuadrosTexto[1].getText(), cuadrosTexto[2].getText(), cuadrosTexto[3].getText(), cuadroSeleccion.getSelectedItem().toString(), cuadrosPassword[0].getText(), this);
+                    borrarTextos();
+                }
+                break;
+            case "GuardarCambios":
+                if(comprobarTextos()){
+                    admin.guardarCambiosUsuario(index, cuadrosTexto[0].getText(), cuadrosTexto[1].getText(), cuadrosTexto[2].getText(), cuadrosTexto[3].getText(), cuadroSeleccion.getSelectedItem().toString(), cuadrosPassword[0].getText(), this);
                     borrarTextos();
                 }
                 break;
