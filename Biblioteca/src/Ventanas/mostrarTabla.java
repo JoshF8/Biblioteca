@@ -41,10 +41,12 @@ import javax.swing.table.TableRowSorter;
 public class mostrarTabla extends VentanaPadre implements ActionListener{
     
     JTable tabla;
+    TableRowSorter<TableModel> elQueOrdena;
     JComboBox<String> ordenar = new JComboBox<String>();
     private int columnaOrdenar = 0, itemSeleccionado = 0;
     JTextField textos[];
     TextPrompt placeHolders[];
+    JButton botones[];
     public mostrarTabla(VentanaPadre anterior, String tipoTabla, String tipoBusqueda) {
         super(tipoBusqueda, anterior);
         Ancho = 1000;
@@ -69,14 +71,21 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         tabla.setRowSelectionAllowed(true);
         tabla.setColumnSelectionAllowed(false);
         tabla.getTableHeader().setEnabled(false);
-        TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<TableModel>(tabla.getModel());
+        elQueOrdena = new TableRowSorter<TableModel>(tabla.getModel());
         tabla.setRowSorter(elQueOrdena);
+        if(columnaOrdenar == 11){
+            elQueOrdena.toggleSortOrder(columnaOrdenar);
+        }
         elQueOrdena.toggleSortOrder(columnaOrdenar);
         JScrollPane tablaPanel = new JScrollPane();
         tablaPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         tablaPanel.setViewportView(tabla);
         tablaPanel.setBounds(20,100, 960,360);
+        JButton botonSalir = new JButton("Salir");
+        botonSalir.addActionListener(this);
+        botonSalir.setBounds(830, 30, 150, 30);
         getContentPane().add(tablaPanel);
+        getContentPane().add(botonSalir);
     }
     
     public void llenarTabla(Bibliografia bibliografias[], String tipoTabla){
@@ -145,7 +154,35 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 }
             }
         });
-        columnaOrdenar = 6;
+        columnaOrdenar = 11;
+        ordenar.addItem("Copias (Mayor a menor)");
+        ordenar.addItem("Disponibles (Mayor a menor)");
+        ordenar.addItem("Tipo (Ascendente)");
+        ordenar.addItem("Tipo (Descendente)");
+        ordenar.setActionCommand("CambioOrdenMostrarBibliografía");
+        ordenar.addActionListener(this);
+        ordenar.setBounds(100, 30, 200, 30);
+        JLabel texto = new JLabel("Ordenar por:");
+        texto.setBounds(20, 30, 200,30);
+        textos = new JTextField[2];
+        textos[0] = new JTextField();
+        textos[1] = new JTextField();
+        placeHolders = new TextPrompt[2];
+        placeHolders[0] = new TextPrompt("Título", textos[0]);
+        placeHolders[0].changeAlpha(0.75f);
+        placeHolders[1] = new TextPrompt("Autor", textos[1]);
+        placeHolders[1].changeAlpha(0.75f);
+        textos[0].setBounds(340, 30, 150, 30);
+        textos[1].setBounds(510, 30, 150, 30);
+        JButton boton = new JButton("Buscar");
+        boton.addActionListener(this);
+        boton.setActionCommand("BuscarB");
+        boton.setBounds(680, 30, 100, 30);
+        getContentPane().add(ordenar);
+        getContentPane().add(texto);
+        getContentPane().add(textos[0]);
+        getContentPane().add(textos[1]);
+        getContentPane().add(boton);
     }
     
     public void llenarTabla(Bibliografia bibliografias[]){
@@ -188,7 +225,18 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
             }
         };
         tabla = new JTable(modeloTabla);
-        columnaOrdenar = 6;
+        columnaOrdenar = 11;
+        ordenar.addItem("Copias (Mayor a menor)");
+        ordenar.addItem("Disponibles (Mayor a menor)");
+        ordenar.addItem("Tipo (Ascendente)");
+        ordenar.addItem("Tipo (Descendente)");
+        ordenar.setActionCommand("CambioOrdenMostrarBibliografía");
+        ordenar.addActionListener(this);
+        ordenar.setBounds(100, 30, 200, 30);
+        JLabel texto = new JLabel("Ordenar por:");
+        texto.setBounds(20, 30, 200,30);
+        getContentPane().add(ordenar);
+        getContentPane().add(texto);
     }
     
     public void llenarTabla(Usuario usuarios[]){
@@ -294,11 +342,17 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         columnaOrdenar = 0;
         textos = new JTextField[1];
         textos[0] = new JTextField("");
-        textos[0].setBounds(20, 30, 300, 30);
+        textos[0].setBounds(20, 30, 200, 30);
         placeHolders = new TextPrompt[1];
         placeHolders[0] = new TextPrompt("ID (DPI)", textos[0]);
         placeHolders[0].changeAlpha(0.75f);
+        botones = new JButton[1];
+        botones[0] = new JButton("Buscar");
+        botones[0].setActionCommand("BuscarU");
+        botones[0].addActionListener(this);
+        botones[0].setBounds(240,30,100,30);
         getContentPane().add(textos[0]);
+        getContentPane().add(botones[0]);
     }
     
     private void ordenarMostrarUsuario(){
@@ -308,6 +362,30 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         }
     }
     
+    private void ordenarMostrarBiblio(){
+        if(ordenar.getSelectedIndex() != itemSeleccionado){
+            switch(ordenar.getSelectedIndex()){
+                case 0:
+                    tabla.getRowSorter().toggleSortOrder(11);
+                    tabla.getRowSorter().toggleSortOrder(11);
+                    break;
+                case 1:
+                    tabla.getRowSorter().toggleSortOrder(12);
+                    tabla.getRowSorter().toggleSortOrder(12);
+                    break;
+                case 2:
+                    tabla.getRowSorter().toggleSortOrder(0);
+                    break;
+                case 3:
+                    if(itemSeleccionado != 2){
+                        tabla.getRowSorter().toggleSortOrder(0);
+                    }
+                    tabla.getRowSorter().toggleSortOrder(0);
+                    break;
+            }
+            itemSeleccionado = ordenar.getSelectedIndex();
+        }
+    }
     @Override
     public void dispose(){
         cerrar(true);
@@ -318,6 +396,26 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         switch(e.getActionCommand()){
             case "CambioOrdenMostrarUsuario":
                 ordenarMostrarUsuario();
+                break;
+            case "CambioOrdenMostrarBibliografía":
+                ordenarMostrarBiblio();
+                break;
+            case "BuscarU":
+                elQueOrdena.setRowFilter(RowFilter.regexFilter(textos[0].getText(), 0));
+                break;
+            case "BuscarB":
+                /* elQueOrdena.setRowFilter(RowFilter.regexFilter(textos[0].getText(), 3));
+                elQueOrdena.setRowFilter(RowFilter.regexFilter(textos[1].getText(), 2));*/
+                RowFilter filtro = new RowFilter() {
+                    @Override
+                    public boolean include(RowFilter.Entry entry) {
+                        return (entry.getValue(3).toString().toUpperCase().contains(textos[0].getText().toUpperCase()) &&  entry.getValue(2).toString().toUpperCase().contains(textos[1].getText().toUpperCase()));
+                    }
+                };
+                elQueOrdena.setRowFilter(filtro);
+                break;
+            case "Salir":
+                dispose();
                 break;
         }
     }

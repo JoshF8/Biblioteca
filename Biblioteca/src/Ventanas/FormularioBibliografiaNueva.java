@@ -65,7 +65,7 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
         combobox.setBounds(20,20,390,60);
         formulario.setBounds(20,80,800,400);
         JPanel botonesPanel = new JPanel(new GridLayout(1,4,20,40));
-        JButton aceptarBoton = new JButton("Aceptar"), borrarBoton = new JButton("Borrar"), cerrarBoton = new JButton("Cerrar"), cargaBoton = new JButton("Carga masiva");
+        JButton aceptarBoton = new JButton("Guardar"), borrarBoton = new JButton("Borrar"), cerrarBoton = new JButton("Cerrar"), cargaBoton = new JButton("Carga masiva");
         aceptarBoton.addActionListener(this);
         borrarBoton.addActionListener(this);
         cerrarBoton.addActionListener(this);
@@ -205,7 +205,7 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
             case "Borrar":
                 borrarTextos();
                 break;
-            case "Aceptar":
+            case "Guardar":
                 if(comprobarTextos()){
                     enviarGuardado();
                     borrarTextos();
