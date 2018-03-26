@@ -152,7 +152,6 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 int fila = tabla.rowAtPoint(e.getPoint());
                 int columna = tabla.columnAtPoint(e.getPoint());
                 if(modeloTabla.getColumnClass(columna).equals(JButton.class)){
-                    System.out.println(tabla.getValueAt(tabla.getSelectedRow(), 0));
                     controlBotones(tipoTabla + "B", (Long)tabla.getValueAt(fila, columna));
                 }
             }
