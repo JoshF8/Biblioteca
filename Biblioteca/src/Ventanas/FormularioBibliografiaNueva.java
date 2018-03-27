@@ -42,8 +42,9 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
     private JPanel formulario = new JPanel(new GridLayout((cuadrosTexto.length) - 1,2,20,10));
     private String textoLabels[] = {"Tipo", "Autor", "Título", "Descripción", "Palabras Clave", "Edición", "Temas", "Copias", "Disponibles", "Frecuencia actual", "Ejemplares", "Área"};
     private Administrador admin = (Administrador) Biblioteca.usuarioConectado;
+    private int index = -1;
     
-    public FormularioBibliografiaNueva(VentanaPadre anterior){
+    public FormularioBibliografiaNueva(VentanaPadre anterior, int tipo){
         super("Nueva bibliografía", anterior);
         Ancho = 840;
         Alto = 630;
@@ -70,6 +71,9 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
         borrarBoton.addActionListener(this);
         cerrarBoton.addActionListener(this);
         cargaBoton.addActionListener(this);
+        if(tipo == 1){
+            aceptarBoton.setActionCommand("GuardarCambios");
+        }
         botonesPanel.add(aceptarBoton);
         botonesPanel.add(borrarBoton);
         botonesPanel.add(cargaBoton);
@@ -82,14 +86,16 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
     
     public void agregarCuadrosTexto(int tipo){
         int limite = 0;
-        borrarTextos();
-        cuadroSeleccion.setSelectedIndex(tipo);
         switch(tipo){
             case 0:
+                cuadrosTexto[10].setText("");
             case 2:
+                cuadrosTexto[9].setText("");
+                cuadrosTexto[8].setText("");
                 limite = 4;
                 break;
             case 1:
+                cuadrosTexto[10].setText("");
                 limite = 5;
                 break;
         }
@@ -118,6 +124,23 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
             }
             cuadroSeleccion.setSelectedIndex(0);
         }
+    }
+    
+    public void llenarTextos(int index){
+        this.index = index;
+        Bibliografia bibliografia = Biblioteca.bibliografiasActuales[index];
+        cuadroSeleccion.setSelectedIndex(bibliografia.getTipo());
+        cuadrosTexto[0].setText(bibliografia.getAutor());
+        cuadrosTexto[1].setText(bibliografia.getTitulo());
+        cuadrosTexto[2].setText(bibliografia.getDescripcion());
+        cuadrosTexto[3].setText(bibliografia.getPalabrasClave());
+        cuadrosTexto[4].setText(String.valueOf(bibliografia.getEdicion()));
+        cuadrosTexto[5].setText(bibliografia.getTemas());
+        cuadrosTexto[6].setText(String.valueOf(bibliografia.getCopias()));
+        cuadrosTexto[7].setText(String.valueOf(bibliografia.getDisponibles()));
+        cuadrosTexto[8].setText(bibliografia.getFrecuenciaActual());
+        cuadrosTexto[9].setText(String.valueOf(bibliografia.getEjemplares()));
+        cuadrosTexto[10].setText(bibliografia.getArea());
     }
     
     private boolean comprobarLlenadoTextos(int tipo){
@@ -165,15 +188,20 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
         return true;
     }
     
-    public void enviarGuardado(){
+    public void enviarGuardado(int tipo){
         String temas[], palabrasClave[];
         temas = cuadrosTexto[5].getText().split(",");
         palabrasClave = cuadrosTexto[3].getText().split(",");
         limpiarVector(temas);
         limpiarVector(palabrasClave);
         int num = (cuadrosTexto[9].getText().equals(""))? 0 : Integer.valueOf(cuadrosTexto[9].getText());
-        admin.crearBibliografia(cuadroSeleccion.getSelectedIndex(), cuadrosTexto[0].getText(), cuadrosTexto[1].getText(), cuadrosTexto[2].getText(), palabrasClave, Integer.valueOf(cuadrosTexto[4].getText()), temas, cuadrosTexto[8].getText(), num, cuadrosTexto[10].getText(), Integer.valueOf(cuadrosTexto[6].getText()), Integer.valueOf(cuadrosTexto[7].getText()));
-        JOptionPane.showMessageDialog(null, "Biliografía creada con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+        if(tipo == 0){
+            admin.crearBibliografia(cuadroSeleccion.getSelectedIndex(), cuadrosTexto[0].getText(), cuadrosTexto[1].getText(), cuadrosTexto[2].getText(), palabrasClave, Integer.valueOf(cuadrosTexto[4].getText()), temas, cuadrosTexto[8].getText(), num, cuadrosTexto[10].getText(), Integer.valueOf(cuadrosTexto[6].getText()), Integer.valueOf(cuadrosTexto[7].getText()));
+            JOptionPane.showMessageDialog(null, "Biliografía creada con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            admin.guardarCambiosBibliografia(index, cuadroSeleccion.getSelectedIndex(), cuadrosTexto[0].getText(), cuadrosTexto[1].getText(), cuadrosTexto[2].getText(), palabrasClave, Integer.valueOf(cuadrosTexto[4].getText()), temas, cuadrosTexto[8].getText(), num, cuadrosTexto[10].getText(), Integer.valueOf(cuadrosTexto[6].getText()), Integer.valueOf(cuadrosTexto[7].getText()), this);
+        }
+        
     }
     
     public void limpiarVector(String vector[]){
@@ -207,7 +235,13 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
                 break;
             case "Guardar":
                 if(comprobarTextos()){
-                    enviarGuardado();
+                    enviarGuardado(0);
+                    borrarTextos();
+                }
+                break;
+            case "GuardarCambios":
+                if(comprobarTextos()){
+                    enviarGuardado(1);
                     borrarTextos();
                 }
                 break;

@@ -102,7 +102,7 @@ public class VentanaAdministrador extends VentanaPadre implements ActionListener
                 nuevaVentana = new FormularioUsuarioNuevo(this, 0);
                 break;
             case 1:
-                nuevaVentana = new FormularioBibliografiaNueva(this);
+                nuevaVentana = new FormularioBibliografiaNueva(this, 0);
                 break;
         }
         nuevaVentana.setVisible(true);

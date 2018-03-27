@@ -117,6 +117,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
             public Class<?> getColumnClass(int columnIndex) {
                 switch(columnIndex){
                     case 0:
+                        return Long.class;
                     case 1:
                     case 6:
                     case 9:
@@ -152,7 +153,8 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 int fila = tabla.rowAtPoint(e.getPoint());
                 int columna = tabla.columnAtPoint(e.getPoint());
                 if(modeloTabla.getColumnClass(columna).equals(JButton.class)){
-                    controlBotones(tipoTabla + "B", (Long)tabla.getValueAt(fila, columna));
+                    Number numero = (Number)tabla.getValueAt(fila, 0);
+                    controlBotones(tipoTabla + "B", numero.longValue());
                 }
             }
         });
@@ -211,6 +213,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
             public Class<?> getColumnClass(int columnIndex) {
                 switch(columnIndex){
                     case 0:
+                        return Long.class;
                     case 1:
                     case 6:
                     case 9:
@@ -400,8 +403,22 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 }
                 break;
             case "ModificarU":
-                if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea modificar los datos del usuario?", "Eliminar usuario", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea modificar los datos del usuario?", "Modificar usuario", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
                     admin.modificarUsuario(String.valueOf(ID), VentanaAnterior);
+                    super.dispose();
+                }
+                break;
+            case "EliminarB":
+                 if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar la bibliografía?", "Eliminar bibliografía", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                    admin.eliminarBibliografia(String.valueOf(ID));
+                    mostrarTabla ventana = new mostrarTabla(VentanaAnterior, "Eliminar", "Bibliografía");
+                    ventana.setVisible(true);
+                    super.dispose();
+                }
+                break;
+            case "ModificarB":
+                if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea modificar los datos de la bibliografía?", "Modificar bibliografía", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                    admin.modificarBibliografia(String.valueOf(ID), VentanaAnterior);
                     super.dispose();
                 }
                 break;

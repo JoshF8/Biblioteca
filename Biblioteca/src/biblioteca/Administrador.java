@@ -95,6 +95,45 @@ public class Administrador extends Usuario implements ActionListener{
         Biblioteca.bibliografiasActuales = Biblioteca.auxBibliografia;
     }
     
+    public void eliminarBibliografia(String ID){
+        int contador = 0, index = buscarObjeto(Biblioteca.bibliografiasActuales, ID);
+        Biblioteca.auxBibliografia = new Bibliografia[Biblioteca.bibliografiasActuales.length - 1];
+        for(Bibliografia bibliografia : Biblioteca.bibliografiasActuales){
+            if(contador != index){
+                Biblioteca.auxBibliografia[contador] = bibliografia;
+                contador++;
+            }else{
+                index = -1;
+            }
+        }
+        Biblioteca.bibliografiasActuales = Biblioteca.auxBibliografia;
+    }
+    
+    public void modificarBibliografia(String ID, VentanaPadre anterior){
+        int index = buscarObjeto(Biblioteca.bibliografiasActuales, ID);
+        FormularioBibliografiaNueva ventana = new FormularioBibliografiaNueva(anterior, 1);
+        ventana.llenarTextos(index);
+        ventana.setVisible(true);
+    }
+    
+    public void guardarCambiosBibliografia(int index, int tipo, String autor, String titulo, String descripcion, String palabrasClave[],int edicion, String temas[], String frecuenciaActual, int ejemplares, String area, int copias, int disponibles, FormularioBibliografiaNueva ventana){
+        Bibliografia bibliografia = Biblioteca.bibliografiasActuales[index];
+        bibliografia.setTipo(tipo);
+        bibliografia.setAutor(autor);
+        bibliografia.setTitulo(titulo);
+        bibliografia.setDescripcion(descripcion);
+        bibliografia.setPalabrasClave(palabrasClave);
+        bibliografia.setEdicion(edicion);
+        bibliografia.setTemas(temas);
+        bibliografia.setFrecuenciaActual(frecuenciaActual);
+        bibliografia.setEjemplares(ejemplares);
+        bibliografia.setArea(area);
+        bibliografia.setCopias(copias);
+        bibliografia.setDisponibles(disponibles);
+        JOptionPane.showMessageDialog(null, "Cambios guardados con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+        ventana.borrarTextos();
+    }
+    
     private int buscarObjeto(Object  coleccion[], String ID){
         try {
             Bibliografia bibliografias[] = (Bibliografia[]) coleccion;
