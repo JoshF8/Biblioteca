@@ -54,4 +54,32 @@ public class Cliente extends Usuario{
         return rol;
     }
     
+    public Bibliografia[] getFavoritos(){
+        return favoritos;
+    }
+    
+    public void agregarFavorito(String ID){
+        int index = buscarObjeto(Biblioteca.bibliografiasActuales, ID);
+        Bibliografia auxFavoritos[] = new Bibliografia[favoritos.length + 1];
+        for(int i = 0; i < favoritos.length; i++){
+            auxFavoritos[i] = favoritos[i];
+        }
+        auxFavoritos[favoritos.length] = Biblioteca.bibliografiasActuales[index];
+        favoritos = auxFavoritos;
+    }
+    
+    public void eliminarFavorito(String ID){
+        int contador = 0, index = buscarObjeto(favoritos, ID);
+        Bibliografia auxFavoritos[] = new Bibliografia[favoritos.length - 1];
+        for(Bibliografia bibliografia : favoritos){
+            if(contador != index){
+                auxFavoritos[contador] = bibliografia;
+                contador++;
+            }else{
+                index = -1;
+            }
+        }
+        favoritos = auxFavoritos;
+    }
+    
 }

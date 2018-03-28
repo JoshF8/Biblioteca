@@ -35,7 +35,7 @@ public class VentanaCliente extends VentanaPadre implements ActionListener{
     
     public VentanaCliente(VentanaPadre anterior, Cliente cliente){
         super("Cliente",anterior);
-        Ancho = 600;
+        Ancho = 680;
         Alto = 230;
         setSize(Ancho, Alto);
         setLocationRelativeTo(null);
@@ -43,16 +43,18 @@ public class VentanaCliente extends VentanaPadre implements ActionListener{
         titulo.setFont(new Font(titulo.getFont().getFontName(), titulo.getFont().getSize(),16));
         titulo.setBounds(30,10,320,50);
         JPanel botonesPanel = new JPanel(new GridLayout(1,4,20,40));
-        JButton bibliografiasBoton = new JButton("Biliografías"), favoritosBoton = new JButton("Favoritos"), prestamosBoton = new JButton("Préstamos"), cerrarBoton = new JButton("Cerrar sesión");
+        JButton bibliografiasBoton = new JButton("Biliografías"), favoritosBoton = new JButton("Favoritos"), prestarBoton = new JButton("Prestar"),prestamosBoton = new JButton("Préstamos"), cerrarBoton = new JButton("Cerrar sesión");
         bibliografiasBoton.addActionListener(this);
         favoritosBoton.addActionListener(this);
+        prestarBoton.addActionListener(this);
         prestamosBoton.addActionListener(this);
         cerrarBoton.addActionListener(this);
         botonesPanel.add(bibliografiasBoton);
         botonesPanel.add(favoritosBoton);
+        botonesPanel.add(prestarBoton);
         botonesPanel.add(prestamosBoton);
         botonesPanel.add(cerrarBoton);
-        botonesPanel.setBounds(30,100,540,50);
+        botonesPanel.setBounds(20,100,640,50);
         getContentPane().add(titulo);
         getContentPane().add(botonesPanel);
     }
@@ -68,9 +70,15 @@ public class VentanaCliente extends VentanaPadre implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        mostrarTabla ventana;
         switch(e.getActionCommand()){
             case "Biliografías":
-                mostrarTabla ventana = new mostrarTabla(this, "Agregar", "Bibliografías");
+                ventana = new mostrarTabla(this, "Agregar", "Bibliografías");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
+            case "Favoritos":
+                ventana = new mostrarTabla(this, "Eliminar(favoritos)", "Bibliografías");
                 ventana.setVisible(true);
                 this.setVisible(false);
                 break;

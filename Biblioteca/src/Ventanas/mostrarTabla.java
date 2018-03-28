@@ -55,18 +55,26 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         Alto = 500;
         setSize(Ancho, Alto);
         setLocationRelativeTo(null);
-        if(tipoBusqueda.contains("Bib")){
-            if(!tipoTabla.equals("")){
-                llenarTabla(Biblioteca.bibliografiasActuales, tipoTabla);
-            }else{
-                llenarTabla(Biblioteca.bibliografiasActuales);
-            }
-        }else{
-            if(!tipoTabla.equals("")){
-                llenarTabla(Biblioteca.usuariosActivos, tipoTabla);
-            }else{
-                llenarTabla(Biblioteca.usuariosActivos);
-            }
+        switch(tipoBusqueda){
+            case "Bibliografías":
+                if(!tipoTabla.equals("")){
+                    if(tipoTabla.contains("favoritos")){
+                        Cliente cliente = (Cliente)Biblioteca.usuarioConectado;
+                        llenarTabla(cliente.getFavoritos(), tipoTabla);
+                    }else{
+                        llenarTabla(Biblioteca.bibliografiasActuales, tipoTabla);
+                    }
+                }else{
+                    llenarTabla(Biblioteca.bibliografiasActuales);
+                }
+                break;
+            case "Usuarios":
+                if(!tipoTabla.equals("")){
+                    llenarTabla(Biblioteca.usuariosActivos, tipoTabla);
+                }else{
+                    llenarTabla(Biblioteca.usuariosActivos);
+                }
+                break;
         }
         tabla.setEnabled(true);
         tabla.setRowHeight(30);
@@ -411,7 +419,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
             case "EliminarB":
                  if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar la bibliografía?", "Eliminar bibliografía", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
                     admin.eliminarBibliografia(String.valueOf(ID));
-                    mostrarTabla ventana = new mostrarTabla(VentanaAnterior, "Eliminar", "Bibliografía");
+                    mostrarTabla ventana = new mostrarTabla(VentanaAnterior, "Eliminar", "Bibliografías");
                     ventana.setVisible(true);
                     super.dispose();
                 }
@@ -419,6 +427,22 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
             case "ModificarB":
                 if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea modificar los datos de la bibliografía?", "Modificar bibliografía", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
                     admin.modificarBibliografia(String.valueOf(ID), VentanaAnterior);
+                    super.dispose();
+                }
+                break;
+            case "AgregarB":
+                if(JOptionPane.showConfirmDialog(this, "¿Está seguro de agregar esta bibliografía a sus favortitos?", "Agregar bibliografía", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                    Cliente cliente = (Cliente)Biblioteca.usuarioConectado;
+                    cliente.agregarFavorito(String.valueOf(ID));
+                    JOptionPane.showMessageDialog(this, "Bibliografía agregada con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+                }
+                break;
+            case "Eliminar(favoritos)B":
+                if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar la bibliografía de favoritos?", "Eliminar bibliografía", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                    Cliente cliente = (Cliente)Biblioteca.usuarioConectado;
+                    cliente.eliminarFavorito(String.valueOf(ID));
+                    mostrarTabla ventana = new mostrarTabla(VentanaAnterior, "Eliminar(favoritos)", "Bibliografías");
+                    ventana.setVisible(true);
                     super.dispose();
                 }
                 break;
