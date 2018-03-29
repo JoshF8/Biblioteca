@@ -52,7 +52,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
     public mostrarTabla(VentanaPadre anterior, String tipoTabla, String tipoBusqueda) {
         super(tipoBusqueda, anterior);
         Ancho = 1000;
-        Alto = 500;
+        Alto = 600;
         setSize(Ancho, Alto);
         setLocationRelativeTo(null);
         switch(tipoBusqueda){
@@ -90,7 +90,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         JScrollPane tablaPanel = new JScrollPane();
         tablaPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         tablaPanel.setViewportView(tabla);
-        tablaPanel.setBounds(20,100, 960,360);
+        tablaPanel.setBounds(20,140, 960,420);
         JButton botonSalir = new JButton("Salir");
         botonSalir.addActionListener(this);
         botonSalir.setBounds(830, 30, 150, 30);
@@ -176,16 +176,20 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         ordenar.setBounds(100, 30, 200, 30);
         JLabel texto = new JLabel("Ordenar por:");
         texto.setBounds(20, 30, 200,30);
-        textos = new JTextField[2];
+        textos = new JTextField[3];
         textos[0] = new JTextField();
         textos[1] = new JTextField();
-        placeHolders = new TextPrompt[2];
+        textos[2] = new JTextField();
+        placeHolders = new TextPrompt[3];
         placeHolders[0] = new TextPrompt("Título", textos[0]);
         placeHolders[0].changeAlpha(0.75f);
         placeHolders[1] = new TextPrompt("Autor", textos[1]);
         placeHolders[1].changeAlpha(0.75f);
+        placeHolders[2] = new TextPrompt("Palabras clave", textos[2]);
+        placeHolders[2].changeAlpha(0.75f);
         textos[0].setBounds(340, 30, 150, 30);
         textos[1].setBounds(510, 30, 150, 30);
+        textos[2].setBounds(340, 80 ,320, 30);
         JButton boton = new JButton("Buscar");
         boton.addActionListener(this);
         boton.setActionCommand("BuscarB");
@@ -194,6 +198,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         getContentPane().add(texto);
         getContentPane().add(textos[0]);
         getContentPane().add(textos[1]);
+        getContentPane().add(textos[2]);
         getContentPane().add(boton);
     }
     
@@ -470,9 +475,23 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 /* elQueOrdena.setRowFilter(RowFilter.regexFilter(textos[0].getText(), 3));
                 elQueOrdena.setRowFilter(RowFilter.regexFilter(textos[1].getText(), 2));*/
                 RowFilter filtro = new RowFilter() {
+                    
                     @Override
                     public boolean include(RowFilter.Entry entry) {
-                        return (entry.getValue(3).toString().toUpperCase().contains(textos[0].getText().toUpperCase()) &&  entry.getValue(2).toString().toUpperCase().contains(textos[1].getText().toUpperCase()));
+                        String palabrasClaveBuscar[] = textos[2].getText().split(","), palabrasClave[] = entry.getStringValue(5).split(",") , Titulo = entry.getStringValue(3),  Autor = entry.getStringValue(2);
+                        boolean palabraClaveExistente = false;
+                        if(!textos[2].getText().trim().equals("")){
+                            for(int i = 0; i < palabrasClaveBuscar.length; i++){
+                                for(int j = 0; j < palabrasClave.length; j++){
+                                    if(palabrasClave[j].trim().toUpperCase().contains(palabrasClaveBuscar[i].trim().toUpperCase())){
+                                        palabraClaveExistente = true;
+                                    }
+                                }
+                            }
+                        }else{
+                            palabraClaveExistente = true;
+                        }
+                        return (Titulo.toUpperCase().contains(textos[0].getText().toUpperCase()) &&  Autor.toUpperCase().contains(textos[1].getText().toUpperCase()) && palabraClaveExistente);
                     }
                 };
                 elQueOrdena.setRowFilter(filtro);

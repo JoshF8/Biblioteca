@@ -128,6 +128,10 @@ public class Bibliografia {
         return resultado;
     }
     
+    public String[] getPalabrasClaveArray(){
+        return PalabrasClave;
+    }
+    
     public int getEdicion(){
         return Edicion;
     }
