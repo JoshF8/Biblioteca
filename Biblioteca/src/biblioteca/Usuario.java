@@ -84,7 +84,7 @@ public class Usuario implements ActionListener{
         }
     }
     
-    protected int buscarObjeto(Object  coleccion[], String ID){
+    public static int buscarObjeto(Object  coleccion[], String ID){
         try {
             Bibliografia bibliografias[] = (Bibliografia[]) coleccion;
             for(int i = 0; i < bibliografias.length; i++){
