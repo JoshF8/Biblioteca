@@ -82,4 +82,13 @@ public class Cliente extends Usuario{
         favoritos = auxFavoritos;
     }
     
+    public void crearPrestamo(Prestamo prestamoNuevo){
+        Prestamo auxPrestamos[] = new Prestamo[Biblioteca.prestamos.length + 1];
+        for(int i = 0; i < Biblioteca.prestamos.length; i++){
+            auxPrestamos[i] = Biblioteca.prestamos[i];
+        }
+        auxPrestamos[Biblioteca.prestamos.length] = prestamoNuevo;
+        Biblioteca.prestamos = auxPrestamos;
+    }
+    
 }

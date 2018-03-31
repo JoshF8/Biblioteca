@@ -34,6 +34,7 @@ import java.awt.event.ActionListener;
 public class Usuario implements ActionListener{
     protected String ID, nombre, nick, password;
     protected boolean logueado = false;
+    
     public Usuario(String ID, String nombre, String nick, String password){
         setID(ID);
         setNombre(nombre);
@@ -72,6 +73,7 @@ public class Usuario implements ActionListener{
     public String getPassword(){
         return password;
     }
+    
     
     public void abrirVentana(VentanaPadre anterior){
         logueado = true;

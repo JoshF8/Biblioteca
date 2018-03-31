@@ -36,14 +36,18 @@ public class Prestamo {
    private Bibliografia bibliografia;
    private Cliente cliente;
    
-   public Prestamo(String IDBibliografia, String IDUsuario){
-       this.indexBibliografia = Usuario.buscarObjeto(Biblioteca.bibliografiasActuales, IDBibliografia);
-       this.bibliografia = Biblioteca.bibliografiasActuales[indexBibliografia];
+   public Prestamo(Bibliografia bibliografia, String IDUsuario){
+       this.bibliografia = bibliografia;
        this.indexUsuario = Usuario.buscarObjeto(Biblioteca.usuariosActivos, IDUsuario);
-       this.cliente = (Cliente)Biblioteca.usuariosActivos[indexBibliografia];
+       this.cliente = (Cliente)Biblioteca.usuariosActivos[indexUsuario];
        this.ID = IDContador++;
-       this.fechaPrestamo = this.fechaLimite = new GregorianCalendar();
+       this.fechaPrestamo = new GregorianCalendar();
+       this.fechaLimite = new GregorianCalendar();
        this.fechaLimite.add(GregorianCalendar.DATE, 7);
+   }
+   
+   public int getID(){
+       return ID;
    }
    
    public String getAutor(){
@@ -60,5 +64,39 @@ public class Prestamo {
    
    public String getApellido(){
        return cliente.getApellido();
+   }
+   
+   public String getFechaPrestamo(){
+       String fecha = fechaPrestamo.getTime().getDate() + "/" + (fechaPrestamo.getTime().getMonth() + 1) + "/" + (fechaPrestamo.getTime().getYear() + 1900);
+       return fecha;
+   }
+   public String getFechaLimite(){
+       String fecha = fechaLimite.getTime().getDate() + "/" + (fechaLimite.getTime().getMonth() + 1) + "/" + (fechaLimite.getTime().getYear() + 1900);
+       return fecha;
+   }
+   
+   public String getHoraPrestamo(){
+       String cero = "";
+       if(!(fechaPrestamo.getTime().getMinutes() > 9)){
+           cero = "0";
+       }
+       String hora = fechaPrestamo.getTime().getHours() + ":" + cero + fechaPrestamo.getTime().getMinutes();
+       return hora;
+   }
+   
+   public GregorianCalendar getFechaPrestamoCalendar(){
+       return fechaPrestamo;
+   }
+   
+   public GregorianCalendar getFechaLimiteCalendar(){
+       return fechaLimite;
+   }
+   
+   public Bibliografia getBibliografia(){
+       return this.bibliografia;
+   }
+   
+   public Usuario getUsuario(){
+       return this.cliente;
    }
 }

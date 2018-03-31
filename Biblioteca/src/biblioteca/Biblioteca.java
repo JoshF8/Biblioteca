@@ -21,6 +21,7 @@ public class Biblioteca{
     public static Usuario usuariosActivos[], auxUsuarios[], usuarioConectado;
     public static Bibliografia bibliografiasActuales[] = new Bibliografia[0], auxBibliografia[];
     public static VentanaPadre ventana;
+    public static Prestamo prestamos[] = new Prestamo[0];
     
     public static void main(String[] args) {
         usuariosActivos = new Usuario[4];

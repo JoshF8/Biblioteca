@@ -82,6 +82,16 @@ public class VentanaCliente extends VentanaPadre implements ActionListener{
                 ventana.setVisible(true);
                 this.setVisible(false);
                 break;
+            case "Prestar":
+                ventana = new mostrarTabla(this, "Prestar", "Bibliografías");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
+            case "Préstamos":
+                ventana = new mostrarTabla(this, "Devolver", "Préstamos");
+                ventana.setVisible(true);
+                this.setVisible(false);
+                break;
             case "Cerrar sesión":
                 dispose();
                 break;

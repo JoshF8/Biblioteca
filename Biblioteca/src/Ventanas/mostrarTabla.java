@@ -29,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.GregorianCalendar;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -58,7 +59,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         switch(tipoBusqueda){
             case "Bibliografías":
                 if(!tipoTabla.equals("")){
-                    if(tipoTabla.contains("favoritos")){
+                    if(tipoTabla.contains("favoritos") || tipoTabla.equals("Prestar")){
                         Cliente cliente = (Cliente)Biblioteca.usuarioConectado;
                         llenarTabla(cliente.getFavoritos(), tipoTabla);
                     }else{
@@ -74,6 +75,10 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 }else{
                     llenarTabla(Biblioteca.usuariosActivos);
                 }
+                break;
+            case "Préstamos":
+                Cliente cliente = (Cliente)Biblioteca.usuarioConectado;
+                llenarTabla(Biblioteca.prestamos, "Devolver");
                 break;
         }
         tabla.setEnabled(true);
@@ -373,6 +378,66 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
         getContentPane().add(botones[0]);
     }
     
+    public void llenarTabla(Prestamo prestamo[], String tipoTabla){
+    String columnas[] = {"ID","Título", "Autor", "Fecha préstamo", "Hora préstamo", "Fecha límite", "Nombre usuario", "Apellido usuario",tipoTabla};
+        Object datosTabla[][] = new Object[prestamo.length][columnas.length];
+        JButton botones[] = new JButton[prestamo.length];
+        for(int i = 0; i < prestamo.length; i++){
+            datosTabla[i][0] = prestamo[i].getID();
+            datosTabla[i][1] = prestamo[i].getTitulo();
+            datosTabla[i][2] = prestamo[i].getAutor();
+            datosTabla[i][3] = prestamo[i].getFechaPrestamo();
+            datosTabla[i][4] = prestamo[i].getHoraPrestamo();
+            datosTabla[i][5] = prestamo[i].getFechaLimite();
+            datosTabla[i][6] = prestamo[i].getNombre();
+            datosTabla[i][7] = prestamo[i].getApellido();
+            botones[i] = new JButton(tipoTabla);
+            datosTabla[i][8] = botones[i];
+        }
+        DefaultTableModel modeloTabla = new DefaultTableModel(datosTabla, columnas){
+            
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                switch(columnIndex){
+                    case 0:
+                        return Long.class;
+                    case 8:
+                        return JButton.class;
+                    default:
+                        return String.class;
+                }
+            }
+            
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        DefaultTableCellRenderer render = new DefaultTableCellRenderer(){
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
+                if(value instanceof JButton){
+                    JButton boton = (JButton)value;
+                    return boton;
+                }
+                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            }
+        };
+        tabla = new JTable(modeloTabla);
+        tabla.setDefaultRenderer(Object.class, render);
+        tabla.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                int fila = tabla.rowAtPoint(e.getPoint());
+                int columna = tabla.columnAtPoint(e.getPoint());
+                if(modeloTabla.getColumnClass(columna).equals(JButton.class)){
+                    Number numero = (Number)tabla.getValueAt(fila, 0);
+                    controlBotones(tipoTabla + "P", numero.longValue());
+                }
+            }
+        });
+        columnaOrdenar = 0;
+    }
+    
     private void ordenarMostrarUsuario(){
         if(ordenar.getSelectedIndex() != itemSeleccionado){
             tabla.getRowSorter().toggleSortOrder(columnaOrdenar);
@@ -451,6 +516,35 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                     super.dispose();
                 }
                 break;
+            case "PrestarB":
+                if(JOptionPane.showConfirmDialog(this, "¿Está seguro que desea prestar esta bibliografía?", "Prestar bibliografía", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                    int index = Usuario.buscarObjeto(Biblioteca.bibliografiasActuales, String.valueOf(ID));
+                    Bibliografia bibliografia = Biblioteca.bibliografiasActuales[index];
+                    if(bibliografia.getDisponibles() > 0){
+                        Prestamo prestamo = new Prestamo(bibliografia, Biblioteca.usuarioConectado.getID());
+                        bibliografia.setDisponibles(bibliografia.getDisponibles() - 1);
+                        Cliente cliente = (Cliente)Biblioteca.usuarioConectado;
+                        cliente.crearPrestamo(prestamo);
+                        mostrarTabla ventana = new mostrarTabla(VentanaAnterior, "Prestar", "Bibliografías");
+                        ventana.setVisible(true);
+                        super.dispose();
+                    }else{
+                        GregorianCalendar fecha = null;
+                        for(Prestamo prestamo : Biblioteca.prestamos){
+                            if(prestamo.getBibliografia() == bibliografia){
+                                if(fecha != null){
+                                    if(fecha.after(prestamo.getFechaLimiteCalendar())){
+                                        fecha = prestamo.getFechaLimiteCalendar();
+                                    }
+                                }else{
+                                    fecha = prestamo.getFechaLimiteCalendar();
+                                }
+                            }
+                        }
+                        JOptionPane.showMessageDialog(this, "La devolucón más próxima es el: " + fecha.getTime().getDate() + "/" + (fecha.getTime().getMonth() + 1) + "/" + (fecha.getTime().getYear() + 1900), "Fecha próxima", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                break;
         }
     }
     
@@ -475,7 +569,6 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 /* elQueOrdena.setRowFilter(RowFilter.regexFilter(textos[0].getText(), 3));
                 elQueOrdena.setRowFilter(RowFilter.regexFilter(textos[1].getText(), 2));*/
                 RowFilter filtro = new RowFilter() {
-                    
                     @Override
                     public boolean include(RowFilter.Entry entry) {
                         String palabrasClaveBuscar[] = textos[2].getText().split(","), palabrasClave[] = entry.getStringValue(5).split(",") , Titulo = entry.getStringValue(3),  Autor = entry.getStringValue(2);
