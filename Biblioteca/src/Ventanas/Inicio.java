@@ -26,6 +26,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import biblioteca.Reportes;
 /**
  *
  * @author Josh
@@ -67,6 +68,11 @@ public class Inicio extends VentanaPadre implements ActionListener{
     
     @Override
     public void dispose(){
+        try {
+            Reportes.escribirReportes();
+        } catch (Exception e) {
+        }
+        
         System.exit(0);
     }
 
