@@ -110,9 +110,9 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
         boolean r0 =  false, r1 = true, valor;
         for(int i = 0; i < (cuadrosTexto.length + cuadrosPassword.length); i++){
             if(i < cuadrosTexto.length){
-                valor = !cuadrosTexto[i].getText().equals("");
+                valor = !cuadrosTexto[i].getText().trim().equals("");
             }else{
-                valor = !cuadrosPassword[i - cuadrosTexto.length].getText().equals(""); 
+                valor = !cuadrosPassword[i - cuadrosTexto.length].getText().trim().equals(""); 
             }
             if(valor){
                     r0 = true;
@@ -131,7 +131,7 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
     
     private boolean comprobarExistencia(){
         for(Usuario usuarios : Biblioteca.usuariosActivos){
-            if(usuarios.getID().equals(cuadrosTexto[0].getText()) && tipoForm == 0){
+            if((usuarios.getID().equals(cuadrosTexto[0].getText()) || usuarios.getNick().equals(cuadrosTexto[3].getText())) && tipoForm == 0){
                 return false;
             }
         }
@@ -144,12 +144,24 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
             return false;
         }else{
             if(!comprobarExistencia()){
-                JOptionPane.showMessageDialog(this, "Ya existe un usuario con ese ID.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Ya existe un usuario con ese ID/Nick.", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }else{
                 if(!cuadrosPassword[0].getText().equals(cuadrosPassword[1].getText())){
                     JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden.", "Error", JOptionPane.ERROR_MESSAGE);
                     return false;
+                }else{
+                    if(cuadrosTexto[0].getText().length() == 13){
+                        try{
+                            Long.parseLong(cuadrosTexto[0].getText());
+                        }catch(Exception e){
+                            JOptionPane.showMessageDialog(this, "No es un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                            return false;
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(this, "No es un ID válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
                 }
             }
         }

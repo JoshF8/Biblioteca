@@ -150,13 +150,31 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
             case 0:
             case 2:
                 limite = 8;
+                try {
+                    Integer.parseInt(cuadrosTexto[4].getText().trim());
+                    Integer.parseInt(cuadrosTexto[6].getText().trim());
+                    Integer.parseInt(cuadrosTexto[7].getText().trim());
+                } catch (Exception e) {
+                    if(tipo == 1){
+                        JOptionPane.showMessageDialog(this, "Hay campos que deben ser números.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
+                }
                 break;
             case 1:
                 limite = 10;
+                try {
+                    Integer.parseInt(cuadrosTexto[9].getText().trim());
+                } catch (Exception e) {
+                    if(tipo == 1){
+                        JOptionPane.showMessageDialog(this, "Hay campos que deben ser números.", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
+                    }
+                }
                 break;
         }
         for(int i = 0; i < limite; i++){
-            valor = !cuadrosTexto[i].getText().equals("");
+            valor = !cuadrosTexto[i].getText().trim().equals("");
             if(valor){
                     r0 = true;
             }else{
@@ -164,7 +182,7 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
             }
         }
         if(cuadroSeleccion.getSelectedIndex() == 2){
-            valor = !cuadrosTexto[10].getText().equals("");
+            valor = !cuadrosTexto[10].getText().trim().equals("");
             if(valor){
                     r0 = true;
             }else{
@@ -177,13 +195,20 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
         if(!r1){
            "Existe campo vacio"
         }*/
+        if((tipo == 1) && !r1){
+            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos antes de guardar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         return (tipo == 0) ? r0 : r1;
     }
     
     private boolean comprobarTextos(){
         if(!comprobarLlenadoTextos(1)){
-            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos antes de guardar.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
+        }else{
+            if(Integer.valueOf(cuadrosTexto[6].getText().trim()) < Integer.valueOf(cuadrosTexto[7].getText().trim())){
+                JOptionPane.showMessageDialog(this, "El número de disponibles no puede ser mayor al número de copias.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
         }
         return true;
     }
