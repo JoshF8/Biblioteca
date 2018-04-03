@@ -36,21 +36,21 @@ public class Reportes {
     static String pagina;
     
     public static void escribirReportes() throws IOException{
-        String ruta = "Reportes\\ReporteUsuarios.html";
+        String ruta = "src\\Reportes\\ReporteUsuarios.html";
         File archivo = new File(ruta);
         BufferedWriter buffer = new BufferedWriter(new FileWriter(archivo));
         escribirCabecera();
         escribirReporteUsuarios();
         buffer.write(pagina);
         buffer.close();
-        ruta = "Reportes\\ReporteBibliografias.html";
+        ruta = "src\\Reportes\\ReporteBibliografias.html";
         archivo = new File(ruta);
         buffer = new BufferedWriter(new FileWriter(archivo));
         escribirCabecera();
         escribirReporteBibliografias();
         buffer.write(pagina);
         buffer.close();
-        ruta = "Reportes\\ReportePrestamos.html";
+        ruta = "src\\Reportes\\ReportePrestamos.html";
         archivo = new File(ruta);
         buffer = new BufferedWriter(new FileWriter(archivo));
         escribirCabecera();
