@@ -24,7 +24,7 @@ public class Biblioteca{
     public static Prestamo prestamos[] = new Prestamo[0], prestamosTotales[] = new Prestamo[0];
     
     public static void main(String[] args) {
-        usuariosActivos = new Usuario[4];
+        usuariosActivos = new Usuario[1];
         Administrador admin = new Administrador("admin","administrador","admin","password");
         usuariosActivos[0] = admin;
         /*usuariosActivos[1] = new Cliente("2569567840101", "Juan", "ra", "abcd", "Estudiante", "123");

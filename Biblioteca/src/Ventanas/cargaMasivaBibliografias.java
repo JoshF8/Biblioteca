@@ -32,7 +32,7 @@ import java.awt.event.ActionListener;
  * @author Josh
  */
 public class cargaMasivaBibliografias extends VentanaPadre implements ActionListener{
-    
+    //
     JTextArea areaTexto = new JTextArea("", 10 , 10);
     TextPrompt ejemplo = new TextPrompt("Tipo; Autor; Título; Descripción; Palabras Clave; Edición; Temas; Frecuencia Actual; Ejemplares; Área;\n" +
 "Copias; Disponibles", areaTexto);

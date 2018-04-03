@@ -36,7 +36,6 @@ import biblioteca.*;
 public class FormularioBibliografiaNueva extends VentanaPadre implements ActionListener{
 
     private JTextField cuadrosTexto[] = new JTextField[11];
-    //private TextPrompt placeholder[] = new TextPrompt[11];
     private JLabel titulos[] = new JLabel[12];
     private JComboBox cuadroSeleccion = new JComboBox();
     private JPanel formulario = new JPanel(new GridLayout((cuadrosTexto.length) - 1,2,20,10));

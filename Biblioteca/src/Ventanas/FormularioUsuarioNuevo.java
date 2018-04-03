@@ -120,12 +120,6 @@ public class FormularioUsuarioNuevo extends VentanaPadre implements ActionListen
                     r1 = false;
             }
         }
-        /*if(r0){
-            "Existe campo lleno"
-        }
-        if(!r1){
-           "Existe campo vacio"
-        }*/
         return (tipo == 0) ? r0 : r1;
     }
     
