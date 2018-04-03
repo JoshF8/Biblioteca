@@ -91,20 +91,37 @@ public class cargaMasivaBibliografias extends VentanaPadre implements ActionList
                     mensaje = "Existe un error en la sintaxis de los datos que desea ingresar.";
                     break;
                 }
+                if(Integer.valueOf(datos[i*12]) > 2 || Integer.valueOf(datos[i*12]) < 0){
+                    mensaje = "No es un tipo válido de documento.";
+                    break;
+                }
                 if(Integer.valueOf(datos[i*12]) != 1){
                     datos[i*12 + 8] = "0";
                 }
+                if(Integer.valueOf(datos[i*12+10])< Integer.valueOf(datos[i*12+11])){
+                    mensaje = "El número de disponibles no puede ser mayor que el número de copias.";
+                    break;
+                }
+                if(Integer.valueOf(datos[i*12+11])< 0){
+                    mensaje = "El número de disponibles no puede ser menor a cero.";
+                    break;
+                }
+                if(Integer.valueOf(datos[i*12+10]) == 0 || Integer.valueOf(datos[i*12+10]) < 1){
+                    mensaje = "El número de copias no puede ser cero o menor a cero";
+                    break;
+                }
             }
-            for(int i = 0; i < datos.length/12; i++){
-                admin.crearBibliografia(Integer.valueOf(datos[i*12]), datos[i*12+1], datos[i*12+2], datos[i*12+3], datos[i*12+4].split(","), Integer.valueOf(datos[i*12+5]), datos[i*12+6].split(","), datos[i*12+7], Integer.valueOf(datos[i*12+8]), datos[i*12+9], Integer.valueOf(datos[i*12+10]), Integer.valueOf(datos[i*12+11]));
-            }
-            JOptionPane.showMessageDialog(null, "Biliografías creadas con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
-            borrarTexto();
         }else{
             mensaje = "Revise la cantidad de campos ingresados.";
         }
         if(!mensaje.equals("")){
             JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            for(int i = 0; i < datos.length/12; i++){
+                admin.crearBibliografia(Integer.valueOf(datos[i*12]), datos[i*12+1], datos[i*12+2], datos[i*12+3], datos[i*12+4].split(","), Integer.valueOf(datos[i*12+5]), datos[i*12+6].split(","), datos[i*12+7], Integer.valueOf(datos[i*12+8]), datos[i*12+9], Integer.valueOf(datos[i*12+10]), Integer.valueOf(datos[i*12+11]));
+            }
+            JOptionPane.showMessageDialog(null, "Biliografías creadas con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+            borrarTexto();
         }
     }
     

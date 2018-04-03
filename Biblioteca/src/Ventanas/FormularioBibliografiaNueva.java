@@ -208,6 +208,12 @@ public class FormularioBibliografiaNueva extends VentanaPadre implements ActionL
             if(Integer.valueOf(cuadrosTexto[6].getText().trim()) < Integer.valueOf(cuadrosTexto[7].getText().trim())){
                 JOptionPane.showMessageDialog(this, "El número de disponibles no puede ser mayor al número de copias.", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
+            }else if(Integer.valueOf(cuadrosTexto[6].getText().trim()) < 1){
+                JOptionPane.showMessageDialog(this, "No pueden existir cero o menos copias de algún documento.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }else if(Integer.valueOf(cuadrosTexto[7].getText()) < 0){
+                JOptionPane.showMessageDialog(this, "No pueden existir menos de cero disponibles en el documento.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
         }
         return true;
