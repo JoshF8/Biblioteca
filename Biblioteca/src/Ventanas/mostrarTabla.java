@@ -513,7 +513,7 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                 if(JOptionPane.showConfirmDialog(this, "¿Está seguro de agregar esta bibliografía a sus favortitos?", "Agregar bibliografía", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
                     Cliente cliente = (Cliente)Biblioteca.usuarioConectado;
                     cliente.agregarFavorito(String.valueOf(ID));
-                    JOptionPane.showMessageDialog(this, "Bibliografía agregada con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+                    
                 }
                 break;
             case "Eliminar(favoritos)B":

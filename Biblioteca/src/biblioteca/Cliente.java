@@ -23,6 +23,8 @@
  */
 package biblioteca;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Josh
@@ -60,12 +62,17 @@ public class Cliente extends Usuario{
     
     public void agregarFavorito(String ID){
         int index = buscarObjeto(Biblioteca.bibliografiasActuales, ID);
-        Bibliografia auxFavoritos[] = new Bibliografia[favoritos.length + 1];
-        for(int i = 0; i < favoritos.length; i++){
-            auxFavoritos[i] = favoritos[i];
+        if(buscarObjeto(favoritos, ID) == -1){
+            Bibliografia auxFavoritos[] = new Bibliografia[favoritos.length + 1];
+            for(int i = 0; i < favoritos.length; i++){
+                auxFavoritos[i] = favoritos[i];
+            }
+            auxFavoritos[favoritos.length] = Biblioteca.bibliografiasActuales[index];
+            favoritos = auxFavoritos;
+            JOptionPane.showMessageDialog(null, "Bibliografía agregada con éxito.", "", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(null, "Esta bibliografía ya existe en favoritos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        auxFavoritos[favoritos.length] = Biblioteca.bibliografiasActuales[index];
-        favoritos = auxFavoritos;
     }
     
     public void eliminarFavorito(String ID){
