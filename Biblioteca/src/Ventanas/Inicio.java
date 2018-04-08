@@ -40,7 +40,7 @@ public class Inicio extends VentanaPadre implements ActionListener{
         Alto = 240;
         setSize(Ancho, Alto);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(EXIT_ON_CLOSE);
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new GridLayout(2,1,0,30));
         JButton loginBoton = new JButton("Login"), aboutBoton = new JButton("About");
@@ -64,6 +64,11 @@ public class Inicio extends VentanaPadre implements ActionListener{
         getContentPane().add(panelBotones);
         getContentPane().add(panelImagen);
     }
+    
+    @Override
+    public void dispose(){
+        System.exit(0);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -74,7 +79,8 @@ public class Inicio extends VentanaPadre implements ActionListener{
                 this.setVisible(false);
                 break;
             case "About":
-                System.out.println("Prueba");
+                String mensaje = "Universidad de San Carlos de Guatemala 2018\nJoshua Estuardo Franco Equité 201708845\nPrimer proyecto de la clase de IPC1";
+                JOptionPane.showMessageDialog(this, mensaje, "About", JOptionPane.INFORMATION_MESSAGE);
                 break;
         }
     }

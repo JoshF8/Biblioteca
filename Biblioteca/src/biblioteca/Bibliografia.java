@@ -28,7 +28,7 @@ package biblioteca;
  * @author Josh
  */
 public class Bibliografia {
-    private int ID, Tipo, Edicion, Ejemplares, Copias, Disponibles;
+    private int ID, Tipo, Edicion, Ejemplares, Copias, Disponibles, vecesPrestado = 0;
     private String Autor, Titulo, Descripcion, PalabrasClave[], Temas[], FrecuenciaActual, Area;
     private static int contadorID = 0;
     public Bibliografia(int tipo, String autor, String titulo, String descripcion, String palabrasClave[],int edicion, String temas[], String frecuenciaActual, int ejemplares, String area, int copias, int disponibles){
@@ -98,6 +98,10 @@ public class Bibliografia {
     public void setDisponibles(int valor){
         Disponibles = valor;
     }
+
+    public void setVecesPrestado() {
+        this.vecesPrestado++;
+    }
     
     public int getID(){
         return ID;
@@ -164,4 +168,10 @@ public class Bibliografia {
     public int getDisponibles(){
         return Disponibles;
     }
+
+    public int getVecesPrestado() {
+        return vecesPrestado;
+    }
+    
+    
 }

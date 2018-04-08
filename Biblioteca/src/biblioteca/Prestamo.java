@@ -38,6 +38,7 @@ public class Prestamo {
    
    public Prestamo(Bibliografia bibliografia, String IDUsuario){
        this.bibliografia = bibliografia;
+       this.bibliografia.setVecesPrestado();
        this.indexUsuario = Usuario.buscarObjeto(Biblioteca.usuariosActivos, IDUsuario);
        this.cliente = (Cliente)Biblioteca.usuariosActivos[indexUsuario];
        this.ID = IDContador++;

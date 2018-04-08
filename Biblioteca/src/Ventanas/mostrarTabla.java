@@ -382,18 +382,27 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
     String columnas[] = {"ID","Título", "Autor", "Fecha préstamo", "Hora préstamo", "Fecha límite", "Nombre usuario", "Apellido usuario",tipoTabla};
         Object datosTabla[][] = new Object[prestamo.length][columnas.length];
         JButton botones[] = new JButton[prestamo.length];
+        int contador = 0;
         for(int i = 0; i < prestamo.length; i++){
-            datosTabla[i][0] = prestamo[i].getID();
-            datosTabla[i][1] = prestamo[i].getTitulo();
-            datosTabla[i][2] = prestamo[i].getAutor();
-            datosTabla[i][3] = prestamo[i].getFechaPrestamo();
-            datosTabla[i][4] = prestamo[i].getHoraPrestamo();
-            datosTabla[i][5] = prestamo[i].getFechaLimite();
-            datosTabla[i][6] = prestamo[i].getNombre();
-            datosTabla[i][7] = prestamo[i].getApellido();
-            botones[i] = new JButton(tipoTabla);
-            datosTabla[i][8] = botones[i];
+            if(prestamo[i].getUsuario() == Biblioteca.usuarioConectado){
+                datosTabla[contador][0] = prestamo[i].getID();
+                datosTabla[contador][1] = prestamo[i].getTitulo();
+                datosTabla[contador][2] = prestamo[i].getAutor();
+                datosTabla[contador][3] = prestamo[i].getFechaPrestamo();
+                datosTabla[contador][4] = prestamo[i].getHoraPrestamo();
+                datosTabla[contador][5] = prestamo[i].getFechaLimite();
+                datosTabla[contador][6] = prestamo[i].getNombre();
+                datosTabla[contador][7] = prestamo[i].getApellido();
+                botones[contador] = new JButton(tipoTabla);
+                datosTabla[contador][8] = botones[contador];
+                contador++;
+            }
         }
+        Object auxDatos[][] = new Object[contador][columnas.length];
+        for(int i = 0; i < contador; i++){
+                auxDatos[i] = datosTabla[i];
+        }
+        datosTabla = auxDatos;
         DefaultTableModel modeloTabla = new DefaultTableModel(datosTabla, columnas){
             
             @Override
@@ -543,6 +552,21 @@ public class mostrarTabla extends VentanaPadre implements ActionListener{
                         }
                         JOptionPane.showMessageDialog(this, "La devolucón más próxima es el: " + fecha.getTime().getDate() + "/" + (fecha.getTime().getMonth() + 1) + "/" + (fecha.getTime().getYear() + 1900), "Fecha próxima", JOptionPane.INFORMATION_MESSAGE);
                     }
+                }
+                break;
+            case "DevolverP":
+                int index = Usuario.buscarObjeto(Biblioteca.prestamos, String.valueOf(ID));
+                Prestamo prestamo = Biblioteca.prestamos[index];
+                if(prestamo.getFechaLimiteCalendar().getTime().after(new java.util.Date())){
+                    JOptionPane.showMessageDialog(this,"Aún no puede regresar esta bibliografía.","Error", JOptionPane.WARNING_MESSAGE);
+                }else{
+                    Bibliografia bibliografia = prestamo.getBibliografia();
+                    bibliografia.setDisponibles(bibliografia.getDisponibles() + 1);
+                    Cliente cliente = (Cliente)prestamo.getUsuario();
+                    cliente.eliminarPrestamo(String.valueOf(ID));
+                    mostrarTabla ventana = new mostrarTabla(VentanaAnterior, "Prestar", "Bibliografías");
+                    ventana.setVisible(true);
+                    super.dispose();
                 }
                 break;
         }

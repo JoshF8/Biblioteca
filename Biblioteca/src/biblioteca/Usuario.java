@@ -95,12 +95,22 @@ public class Usuario implements ActionListener{
                 }
             }
         } catch (Exception e) {
-            Usuario usuarios[] = (Usuario[]) coleccion;
-            for(int i = 1; i < usuarios.length; i++){
-                if(ID.equals(usuarios[i].getID())){
-                    return i;
+            try {
+                Usuario usuarios[] = (Usuario[]) coleccion;
+                for(int i = 1; i < usuarios.length; i++){
+                    if(ID.equals(usuarios[i].getID())){
+                        return i;
+                    }
+                }
+            } catch (Exception ex) {
+                Prestamo prestamos[] = (Prestamo[]) coleccion;
+                for(int i = 0; i < prestamos.length; i++){
+                    if(ID.equals(String.valueOf(prestamos[i].getID()))){
+                        return i;
+                    }
                 }
             }
+        
         }
         return -1;
     }

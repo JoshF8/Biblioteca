@@ -82,6 +82,20 @@ public class Cliente extends Usuario{
         favoritos = auxFavoritos;
     }
     
+    public void eliminarPrestamo(String ID){
+        int contador = 0, index = buscarObjeto(Biblioteca.prestamos, ID);
+        Prestamo auxPrestamos[] = new Prestamo[Biblioteca.prestamos.length - 1];
+        for(Prestamo prestamo : Biblioteca.prestamos){
+            if(contador != index){
+                auxPrestamos[contador] = prestamo;
+                contador++;
+            }else{
+                index = -1;
+            }
+            Biblioteca.prestamos = auxPrestamos;
+        }
+    }
+    
     public void crearPrestamo(Prestamo prestamoNuevo){
         Prestamo auxPrestamos[] = new Prestamo[Biblioteca.prestamos.length + 1];
         for(int i = 0; i < Biblioteca.prestamos.length; i++){
@@ -89,6 +103,12 @@ public class Cliente extends Usuario{
         }
         auxPrestamos[Biblioteca.prestamos.length] = prestamoNuevo;
         Biblioteca.prestamos = auxPrestamos;
+        auxPrestamos = new Prestamo[Biblioteca.prestamosTotales.length + 1];
+        for(int i = 0; i < Biblioteca.prestamosTotales.length; i++){
+            auxPrestamos[i] = Biblioteca.prestamosTotales[i];
+        }
+        auxPrestamos[Biblioteca.prestamosTotales.length] = prestamoNuevo;
+        Biblioteca.prestamosTotales = auxPrestamos;
     }
     
 }
